@@ -1,0 +1,50 @@
+@import 'page-photo.css';
+@font-face {
+    font-family: 'Fedra-SansConds-Bold';
+    src: url('/storage/app/public/fonts/Fedra/Fedra-f.otf') format('opentype');
+}
+::selection {
+    background-color: yellow; /* Change this to any color */
+    color: black; /* Change text color if needed */
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    overflow-x: hidden;
+    font-size: 62.5%;
+}
+
+.fixed-container img{
+    width: 100%;
+    height: 90vh;
+    object-fit:cover;
+}
+section{
+    background-color: white;
+}
+.contact-subcontainer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 9rem;
+    padding: 8rem;
+    background-color: #002deb;
+    color: white;
+    font-family: "Fedra-SansConds-Bold", sans-serif;
+}
+.text-left hr{
+    border: 2px solid #00dcff;
+    height: 3px;
+    width: 20%;
+}
+.info-right {
+    font-size: 20px;
+    font-weight: 200;
+}
+.info-right p:last-child{
+    margin-top: 3rem;
+}

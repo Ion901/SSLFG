@@ -1,0 +1,81 @@
+.images-post {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding-bottom: 0.5rem;
+}
+
+.images-slider {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.images-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.images-slider img:hover {
+    transform: scale(1.05);
+}
+
+/* Lightbox Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    max-width: 80%;
+    max-height: 90%;
+    object-fit: contain;
+    background-color: transparent;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* Navigation Buttons */
+.lightbox-nav {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.prev, .next {
+    cursor: pointer;
+    font-size: 50px;
+    color: white;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.prev:hover, .next:hover {
+    color: rgb(180, 180, 180);
+}

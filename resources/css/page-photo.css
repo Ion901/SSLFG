@@ -1,0 +1,76 @@
+.photo-container {
+    position: relative;
+    height: 60vh;
+    /* width: 100vw; */
+    color: white;
+    overflow: hidden;
+}
+
+.fixed-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    height: 60vh;
+    z-index: -1;
+}
+
+.fixed-container>img {
+    position: fixed;
+
+    height: 60vh;
+    /* Ensure the image covers the entire container */
+    width: 100%;
+    object-fit: cover;
+
+}
+
+.gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(6, 91, 209, 0) 0%, rgba(6, 91, 209, 0.48511904761904767) 51%, rgba(0, 77, 185, 1) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.page {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+}
+
+.page h1 {
+    text-transform: capitalize;
+}
+
+.page hr {
+    border: rgb(255, 255, 255) solid 3px;
+    width: 50px;
+    opacity: 1;
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active,
+.breadcrumb-item {
+    color: rgb(255, 255, 255);
+
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: rgb(255, 255, 255);
+}
