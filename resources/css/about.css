@@ -258,5 +258,41 @@ main{
     background-color: bisque;
     border: 2px solid #003c8f;
 }
+.hscroll{
+    width: 100%;
+}
 
+@media only screen and (max-width:768px){
+    .first-row-column{
+        flex-direction: column;
+        justify-content: unset;
+        align-items: center;
+        height: min-content;
+        gap: 10px;
+    }
+    .image-presentation-container{
+        height: 60rem;
+    }
+    .left-first-row{
+        width: 100%;
+    }
+    .text-over h1{
+        font-size: 8rem;
+    }
+    .right-first-row{
+        width: unset;
+    }
+    .text-over{
+        top: -2%;
+    }
+    .hscroll{
+        overflow-x:scroll ;
+    }
+
+}
+@media only screen and (max-width:637px){
+    .text-over h1{
+        font-size: 7rem;
+    }
+}
 

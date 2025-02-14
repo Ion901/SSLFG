@@ -168,7 +168,7 @@
                 </div>
             </section>
         </div>
-
+        </div>
         <div class="champions-container">
             <div class="inside-champions-container">
                 <div class="title-champions-container">

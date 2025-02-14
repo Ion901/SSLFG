@@ -1,6 +1,10 @@
 @import 'page-photo.css';
 @import url(lightbox.css);
 
+html{
+    font-size: 62.5%;
+}
+
 body {
     overflow-x: hidden;
 }
@@ -60,5 +64,5 @@ ul {
     transition: all 500ms;
     transform: translateX(0);
     opacity: 1.0;
-    
+
 }

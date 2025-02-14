@@ -3,19 +3,19 @@
     font-family: 'Fedra-SansConds-Bold';
     src: url('/storage/app/public/fonts/Fedra/Fedra-f.otf') format('opentype');
 }
-::selection {
-    background-color: yellow; /* Change this to any color */
-    color: black; /* Change text color if needed */
-}
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+html{
+    font-size: 62.5%;
+}
 
 body{
     overflow-x: hidden;
-    font-size: 62.5%;
+
 }
 
 .fixed-container img{
@@ -25,6 +25,10 @@ body{
 }
 section{
     background-color: white;
+}
+::selection {
+    background-color: yellow; /* Change this to any color */
+    color: black; /* Change text color if needed */
 }
 .contact-subcontainer{
     display: flex;

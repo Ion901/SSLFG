@@ -54,8 +54,8 @@
                     </table>
                 </div>
                 <div class="links">
-                    <a href="mailto:scoalasportfg@yahoo.com"><div><i class="fa-regular fa-envelope"></i></div></a>
-                    <a href="tel:+37326375725"><div><i class="fa-solid fa-phone"></i></div></a>
+                    <a href="mailto:{{env('MAIL_SSLFG')}}"><div><i class="fa-regular fa-envelope"></i></div></a>
+                    <a href="tel:{{env('TEL_SSLFG')}}"><div><i class="fa-solid fa-phone"></i></div></a>
                     <a href="https://www.facebook.com/profile.php?id=100063663441299"><div><i class="fa-brands fa-facebook-f"></i></div></a>
                 </div>
             </div>

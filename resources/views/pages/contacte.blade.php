@@ -18,9 +18,9 @@
             <div class="info-right">
                 <p> <b>Tel:</b> +373 0269 75 725</p>
                 <p>Adresa:  sat.Fundul Galbenei, r-nul. Hincesti</p>
-                <p>E-mail:  scoalasportfg@yahoo.com</p>
+                <p>E-mail:  {{env('MAIL_SSLFG')}}</p>
 
-                <p>Scoala infiintata conform numarului de identificare: 1014601000089</p>
+                <p>Scoala infiintata conform numarului de identificare: {{env('IDNO_SSLFG')}}</p>
             </div>
         </div>
     </div>

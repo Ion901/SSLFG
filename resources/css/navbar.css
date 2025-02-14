@@ -36,7 +36,6 @@
 .menu-right>ul{
     display: flex;
     align-items: center;
-
 }
 
 .menu-right>ul>li{
@@ -77,4 +76,62 @@ nav .container-fluid a{
     cursor: pointer;
     color: rgb(250, 250, 250);
     font-weight: bold;
+}
+
+.hamburger {
+    display: none;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: #000000;
+}
+.menu-right ul{
+    padding-left:unset !important;
+}
+.message p{
+    font-size: 1.6rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+        cursor: pointer;
+    }
+    .nav-menu{
+        position: fixed;
+        left: -120%;
+        top: 6rem;
+        flex-direction: column;
+        background: linear-gradient(360deg, rgba(6, 91, 209) 0%, rgb(0, 213, 255) 100%);
+        width: 100vw;
+        height: 100vh;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    }
+    nav .container-fluid a{
+        color: black;
+    }
+
+    .menu-right>ul>li{
+        padding-left: unset;
+    }
+    .menu-right>ul{
+        display: flex;
+        gap: 6rem;
+        align-items: center;
+        padding-top: 6rem;
+    }
+
+    .active{
+        left: 0;
+        height: 100vh;
+        z-index: 999999999;
+    }
 }

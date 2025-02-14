@@ -13,6 +13,11 @@
                 <li><a href="{{route('about')}}"  name="about">Despre Noi</li></a>
                 <li><a href="{{route('contacte')}}"  name="about">Contacte</li></a>
             </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
             </div>
         </div>
     </nav>

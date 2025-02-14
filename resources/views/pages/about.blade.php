@@ -108,7 +108,9 @@
                             </form>
 
                         </div>
-                @include('layouts.table')
+                        <div class="hscroll">
+                            @include('layouts.table')
+                        </div>
                 </div>
                 </div>
             </div>

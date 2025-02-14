@@ -1,5 +1,10 @@
 import './bootstrap';
 const navbar = document.querySelector('.container-fluid');
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
+const container = document.querySelector('.container-fluid');
+const body = document.querySelector('body');
+
 let lastScrollTop = 0;
 if(navbar){
     window.addEventListener('scroll', function(){
@@ -20,4 +25,15 @@ if(navbar){
         lastScrollTop = scrollTop;
     });
 }
+
+hamburger.addEventListener('click',function(){
+    container.style.background='rgb(0, 213, 255)'
+    navMenu.classList.toggle('active');
+    body.style.overflowY='hidden';
+
+    if(!navMenu.classList.contains('active')){
+        container.style.background = 'revert-layer';
+        body.removeAttribute('style');
+    }
+})
 
