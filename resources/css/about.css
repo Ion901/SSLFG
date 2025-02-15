@@ -249,15 +249,17 @@ main{
     margin-top: 10px;
     text-align: center;
 }
-.pagination button {
-    padding: 5px 10px;
-    margin: 5px;
-    cursor: pointer;
-}
 .active1{
     background-color: bisque;
     border: 2px solid #003c8f;
 }
+.pagination button {
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
 .hscroll{
     width: 100%;
 }

@@ -26,10 +26,9 @@ body {
 
 }
 
-section {
+.page {
     margin-left: 3rem;
     margin-right: 3rem;
-
 }
 
 .page>.swiper {
@@ -170,6 +169,7 @@ h6 {
     height: 4rem;
     width: 19rem;
     text-align: center;
+    background-color: white;
 }
 
 .info-ctn a {
@@ -391,13 +391,17 @@ p {
 .left-section {
     width: 120rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 1.6rem;
     /* Adds spacing between grid items */
+}
+.message-director-container{
+    padding: 1.2rem;
 }
 
 .left-section a {
     text-decoration: none;
+    height: fit-content;
 }
 
 .left-section a:link,
@@ -583,3 +587,13 @@ p {
         width: unset;
     }
 }
+@media only screen and (max-width: 600px) {
+     .page{
+        margin: unset;
+    }
+    .container-subsection section{
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+

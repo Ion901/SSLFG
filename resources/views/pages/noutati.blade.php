@@ -15,7 +15,7 @@
     @include('layouts.page-photo')
 
     @if (request()->path() == 'noutati')
-        <section class="left-section mt-7 mb-7">
+        <section class="left-section">
             @foreach ($posts as $post)
                 @if ($post->images)
                     <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
