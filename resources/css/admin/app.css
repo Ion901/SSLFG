@@ -1,0 +1,19 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.hidden-left {
+    left: -17% !important;
+}
+.margin-left {
+    margin-left: -17% !important;
+}

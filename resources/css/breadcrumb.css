@@ -1,0 +1,26 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page h1 {
+    text-transform: capitalize;
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active,
+.breadcrumb-item {
+    color: rgb(0, 0, 0);
+
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.breadcrumb-item a {
+    text-decoration: underline;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: rgb(0, 0, 0);
+};

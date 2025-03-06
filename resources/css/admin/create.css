@@ -1,0 +1,82 @@
+@import url('../lightbox.css');
+@import url('../breadcrumb.css');
+
+div.example {
+    position: relative;
+
+}
+.competition{
+    position: relative;
+    height: 80px;
+}
+/* .competition:nth-child(2){
+    height: 80px;
+} */
+
+.competition select{
+
+        /* for Firefox */
+        -moz-appearance: none;
+        /* for Safari, Chrome, Opera */
+        -webkit-appearance: none;
+
+}
+.combobox, .combobox2 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+}
+
+.combobox>div, .combobox2>div {
+    position: relative;
+    font-size: 1em;
+}
+
+.combobox input, .combobox2 input {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    height: 30px;
+    width: calc(100% - 20px);
+    border-right: none;
+    border-top: none;
+}
+
+
+.combobox>div:after, .combobox2>div:after {
+    position: absolute;
+    top: 16px;
+    right: 0px;
+    height: 100%;
+    width: 20px;
+    box-sizing: border-box;
+    content: "▼";
+    overflow: hidden;
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.combobox select:focus,
+.combobox input:focus,
+.combobox2 select:focus,
+.combobox2 input:focus {
+    outline: none;
+}
+
+select,
+select option {
+    color: #000000;
+}
+
+select:invalid,
+select option[value=""] {
+    color: grey;
+}

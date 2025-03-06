@@ -16,28 +16,26 @@ class HomeController extends Controller
     {
         $posts = Posts::all();
 
+        // ultimii atleti care au participat la o competitie care are 100% o postare dedicata ei
         $posts->each(function($post){
             $post->images = $post->image()->where('id_post',$post->id)->first(['image_path'])?->image_path;
             $post->competition = $post->competition()->first(['id'])?->id;
         });
 
-        $lastCompetition = Competitions::orderBy('date', 'desc')->first();
-        $athlets = Athlets::where('id_competition', $lastCompetition->id)
-            ->select('athlets.*', 'competitions.location', 'competitions.date')
-            ->join('competitions', 'athlets.id_competition', '=', 'competitions.id')
-            ->get();
+        $latestCompetitionId = Athlets::join('posts', 'athlets.id_competition', '=', 'posts.id_competition')
+        ->orderBy('athlets.id', 'desc')
+        ->limit(1)
+        ->pluck('athlets.id_competition')
+        ->first();
 
-        if($athlets->isEmpty()){
-            $previousCompetition = Competitions::where('date','<',$lastCompetition->date)->orderBy('date','desc')->first();
+        $athlets = Athlets::where('id_competition', $latestCompetitionId)
+        ->orderBy('id', 'desc')
+        ->get();
 
-            if($previousCompetition){
-                $athlets = Athlets::where('id_competition', $previousCompetition->id)
-            ->select('athlets.*', 'competitions.location', 'competitions.date')
-            ->join('competitions', 'athlets.id_competition', '=', 'competitions.id')
-            ->get();
-            }
-        }
-        $athlets->postCompetition = $posts->where('id_competition',$athlets->first()?->id_competition)->value('post_slug');
+
+        $athlets->each(function($athlet){
+            $athlet->postCompetition = Posts::where('id_competition',$athlet->id_competition)->value('post_slug');
+        });
 
         return view('pages.index')->with(['posts'=>$posts, 'athlets' => $athlets]);
     }

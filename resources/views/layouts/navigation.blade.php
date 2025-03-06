@@ -1,6 +1,7 @@
-<section x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 max-w-[20%] min-h-screen">
+<section x-data="{ open: false }" class=" relative left-0 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 max-w-[20%] min-h-screen transition-[left] duration-500 ease-in-out ">
 
     <!-- Primary Navigation Menu -->
+    <div class="sticky top-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 flex-col ">
             <div class="flex flex-col gap-4">
@@ -15,15 +16,25 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div>
+
         <div class="pt-10 pb-1 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-1 space-y-1">
-            <x-responsive-nav-link :href="route('noutati')" :active="request()->routeIs('noutati')">
+            <x-responsive-nav-link :href="route('posts')" :active="request()->routeIs('posts')">
                 {{ __('Posts') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-1 space-y-1">
+            <x-responsive-nav-link :href="route('competitions')" :active="request()->routeIs('competitions')">
+                {{ __('Competiții') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-1 space-y-1">
+            <x-responsive-nav-link :href="route('athlets')" :active="request()->routeIs('athlets')">
+                {{ __('Atleți') }}
             </x-responsive-nav-link>
         </div>
 
@@ -53,4 +64,7 @@
         </div>
     </div>
 
+    <div class="absolute bottom-0 right-2 text-3xl">
+        <button class="text-white" id="resize"><</button>
+    </div>
 </section>

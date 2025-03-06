@@ -81,8 +81,7 @@
                                     <div class="date gap-4 mt-4">
                                         <i class="fa-regular fa-clock"></i>
                                         <p class="mb-0">{{Str::replaceMatches('/:\d+\z/','',$athlet->competition->date)}}</p>
-                                        {{-- <p>{{dd($athlets->postCompetion[0])}}</p> --}}
-                                        <a href="{{ route('NewsPost', ['slug' => $athlets->postCompetition]) }}">
+                                        <a href="{{ route('NewsPost', ['slug' => $athlet->postCompetition]) }}">
                                             <button><i class="fa-solid fa-arrow-right-long"></i></button>
                                         </a>
                                     </div>
@@ -123,7 +122,8 @@
                                         <img src="{{ asset($post->images) }}" alt="no image">
                                     </div>
                                     <div class="article-caption">
-                                        <p class="mt-4">{{ $post->post_content }}</p>
+                                        {!! $post->post_content !!}
+                                        
                                     </div>
                                     <button>Citeste mai
                                         mult</button>

@@ -8,3 +8,4 @@ class Gallery extends Model
 {
     protected $table = 'gallery';
 }
+

@@ -8,19 +8,21 @@
         <title>{{ $title ?? "Dashboard" }}</title>
 
         <!-- Fonts -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <script src="//unpkg.com/alpinejs" defer></script>
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/admin/app.css', 'resources/js/admin/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-100 flex">
             @include('layouts.navigation')
 
             <!-- Page Content -->
-            <main>
+            <main class="w-[100%] transition-[margin] duration-500 ease-in-out">
                 {{ $slot }}
             </main>
         </div>

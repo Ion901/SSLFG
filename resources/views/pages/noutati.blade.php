@@ -1,3 +1,67 @@
+
+@if(isset($admin) == 'true')
+
+@section('scripts')
+    @vite('resources/js/noutati.js')
+@endsection
+
+<section class="sectionjj" id="section">
+    <a href="{{url('/posts')}}" class="w-fit bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-block">Inapoi</a>
+    <div class="page">
+        {{ Breadcrumbs::render('viewPost') }}
+    </div>
+    <div class="noutatzi-container">
+        <div class="title-date">
+            <h3>{{ $post->post_title }}</h3>
+            <p><i class="fa-regular fa-clock"></i> {{ Str::replaceMatches('/\s\d.*/', '', $post->post_date) }}
+            </p>
+        </div>
+        <div class="image">
+            {{-- {{dd($post->images)}} --}}
+            @if($post->images->isNotEmpty())
+            <img src="{{ asset($post->images[0]) }}" alt="no image">
+            @else
+            <div class="alert alert-danger d-flex justify-center">
+            <p>You need to add photos</p>
+            </div>
+            @endif
+        </div>
+
+        <div class="content">
+            <div class="actual-content">
+                    {!! $post->post_content !!}
+                @if ($post->athlets)
+                    <div class="premianti-participanti">
+                        <ol>
+                            @foreach ($post->athlets as $athlets)
+                                <li>{{ $athlets->fullName }} - Locul {{ $athlets->place }} la categoria
+                                    {{ $athlets->weight }} kg</li>
+                            @endforeach
+                        </ol>
+                    </div>
+                    <div class="images-post">
+                        @foreach ($post->images as $index => $image)
+                        <div class="images-slider">
+                            <img loading="lazy" class="myImg" data-index="{{ $index }}" src="{{ asset($image) }}" alt="error">
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Lightbox Modal -->
+                    <div id="myModal" class="modal">
+                        <span class="close">&times;</span>
+                        <img class="modal-content" id="img01">
+                        <div class="lightbox-nav">
+                            <span class="prev">&#10094;</span>
+                            <span class="next">&#10095;</span>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
+@else
 @extends('layouts.app')
 
 @section('scripts')
@@ -29,7 +93,7 @@
                                     <img src="{{ asset($post->images) }}" alt="no image">
                                 </div>
                                 <div class="article-caption">
-                                    <p class="mt-1">{{ $post->post_content }}</p>
+                                    {!! $post->post_content !!}
                                 </div>
                                 <button>Citeste mai
                                     mult</button>
@@ -62,9 +126,7 @@
 
                     <div class="content">
                         <div class="actual-content">
-                            @foreach (explode('<br>', $post->post_content) as $paragraph)
-                                <p>{{ $paragraph }}<br></p>
-                            @endforeach
+                                {!! $post->post_content !!}
                             @if ($post->athlets)
                                 <div class="premianti-participanti">
                                     <ol>
@@ -101,3 +163,4 @@
     @include('layouts.footer')
 
 @endsection
+@endif
