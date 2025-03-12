@@ -1,5 +1,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+
 <link href="{{ asset('build/assets/yearpicker.css') }}" rel="stylesheet" />
 <script src="{{ asset('build/assets/yearpicker.js') }}" async></script>
 
@@ -14,8 +17,8 @@
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
             <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                @foreach ($errors->getMessages() as $field => $messages)
+                    <li>{{ $messages[0] }}</li>
                 @endforeach
             </ul>
         </div>
@@ -34,7 +37,7 @@
         <table class="table table-bordered" id="table">
             <tr>
                 <th>Numele, Prenumele Sportivului</th>
-                <th>Virsta</th>
+                {{-- <th>Virsta</th> --}}
                 <th>Categorie de greutate</th>
                 <th>Loc Ocupat</th>
                 <th>Competitie</th>
@@ -42,12 +45,15 @@
             </tr>
             <tr>
                 <td>
-                    <input type="text" name="inputs[0][fullName]"
-                        placeholder="Introdu numele complet al sportivului" class="form-control">
-                </td>
-                <td>
-                    <input type="number" class="yearpicker form-control" name="inputs[0][age]"
-                        placeholder="Anul nasterii" autocomplete="off">
+                    <input type="hidden" name="inputs[0][id_athlet]" id="id_athlet_fetched">
+                    <select name="athlet_fullName" class="select-picker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" >
+                        <option value="" disabled selected>Numele premiantului</option>
+                        @foreach ($athlets as $athlet)
+                        <option value="{{ $athlet->fullName }}" data-athlet-id="{{ $athlet->id }}">
+                            {{ $athlet->fullName }}
+                        </option>
+                    @endforeach
+                      </select>
                 </td>
                 <td>
                     <input type="number" name="inputs[0][weight]" placeholder="Greutateta sportivului"
@@ -85,9 +91,14 @@
 </x-dash-app-layout>
 
 <script>
-    $(function() {
-        $('.yearpicker ').yearpicker();
-    });
+
     //pass the entire collection to the script via directive json
     let competitions = @json($competitions);
+    let athlets = @json($athlets);
+
+    $(document).ready(function() {
+    $(function() {
+    $('.select-picker').select2();
+    });
+});
 </script>

@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Athlets extends Model
 {
-    protected $fillable = ['fullName','age','weight','place','id_competition'];
+    protected $fillable = ['fullName','age'];
     public $timestamps = false;
 
-    public function competition(){
-        return $this->belongsTo(Competitions::class,'id_competition');
+    public function premiant(){
+        return $this->hasMany(Premiants::class,'id_athlet');
     }
 }

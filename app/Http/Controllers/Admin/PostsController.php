@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Posts;
-use App\Models\Athlets;
+use App\Models\Premiants;
 use App\Models\Category;
 use App\Models\Competitions;
 use App\Models\PostImages;
@@ -144,7 +144,7 @@ class PostsController extends Controller
         // dd($post->images);
         if ($post->id_category === 1) {
             $post->competition = $post->competition()->first();
-            $post->athlets = Athlets::where('id_competition', $post->competition->id)->get();
+            $post->athlets = Premiants::where('id_competition', $post->competition->id)->get();
         };
         return view('admin.posts.view', ['post' => $post]);
     }
@@ -160,7 +160,7 @@ class PostsController extends Controller
 
         if ($post->id_category === 1) {
             $post->competition = $post->competition()->first();
-            // $post->athlets = Athlets::where('id_competition',$post->competition->id)->get();
+            // $post->athlets = Premiants::where('id_competition',$post->competition->id)->get();
         };
         // dd($post->images);
 

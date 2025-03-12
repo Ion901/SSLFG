@@ -2,7 +2,7 @@
 
     <div class="flex ml-8">
         <x-crud-button :href="route('athlets.create')" :add="true">
-            Adauga un sportiv
+            Adauga premiantii
         </x-crud-button>
         <h1 class="justify-content-sm-center text-center text-3xl m-0 m-auto">Atleți</h1>
     </div>
@@ -17,8 +17,8 @@
     </tr>
     @foreach ($athlets as $athlet)
     <tr class="border-b-4 border-black mb-2">
-            <td class="break-words text-left pr-3">{{$athlet->fullName}}</td>
-            <td class="pr-3 text-center">{{$athlet->age}}</td>
+            <td class="break-words text-left pr-3">{{$athlet->athlet->fullName}}</td>
+            <td class="pr-3 text-center">{{$athlet->athlet->age}}</td>
             <td class="pr-3 text-center">{{$athlet->weight}}</td>
             <td class="pr-3 text-center">{{$athlet->place}}</td>
             <td class="pr-3">{{$athlet->competition->name}}</td>

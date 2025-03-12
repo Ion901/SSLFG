@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Athlets;
+use App\Models\Premiants;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 use App\Models\Posts;
@@ -78,10 +81,18 @@ Breadcrumbs::for('editPost', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('editCompetition', function (BreadcrumbTrail $trail) {
     $trail->parent('post');
-    $slug = preg_match("/competitions\/(\d+)\/edit/",request()->path(),$matches);
+    preg_match("/competitions\/(\d+)\/edit/",request()->path(),$matches);
     $id = $matches[1];
     $competition_name = Competitions::where('id',$id)->valueOrFail('name');
     $trail->push('Editeaza Postarea', route('posts.edit',$competition_name));
+});
+
+Breadcrumbs::for('editAthlet', function (BreadcrumbTrail $trail) {
+    $trail->parent('sportivi');
+    preg_match("/athlets\/(\d+)\/edit/",request()->path(),$matches);
+    $id = $matches[1];
+    $athlet_name = Athlets::where('id',$id)->valueOrFail('fullName');
+    $trail->push('Editeaza datele sportivului', route('posts.edit',$athlet_name));
 });
 
 

@@ -24,7 +24,7 @@
         </div>
         <div class="pt-2 pb-1 space-y-1">
             <x-responsive-nav-link :href="route('posts')" :active="request()->routeIs('posts')">
-                {{ __('Posts') }}
+                {{ __('Postări') }}
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-1 space-y-1">

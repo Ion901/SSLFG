@@ -14,7 +14,7 @@ class Competitions extends Model
         'date' => 'datetime', // Ensures it's treated as a Carbon instance
     ];
     public function athlet(){
-        return $this->hasMany(Athlets::class,'id_competition');
+        return $this->hasMany(Premiants::class,'id_competition');
     }
 
     public function post(){

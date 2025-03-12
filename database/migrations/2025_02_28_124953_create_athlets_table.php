@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('fullName',300);
             $table->integer('age');
-            $table->integer('weight');
-            $table->integer('place');
         });
-
     }
 
     /**

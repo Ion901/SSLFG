@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::enableForeignKeyConstraints();
-        Schema::table('athlets',function(Blueprint $table) {
-            $table->foreignId('id_competition')->constrained('competition')->cascadeOnDelete()->cascadeOnUpdate();
+        Schema::table('premiants',function(Blueprint $table) {
+            $table->foreignId('id_competition')->constrained('competitions')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('id_athlet')->constrained('athlets');
         });
     }
 
@@ -22,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('athlets',function(Blueprint $table){
-            $table->dropForeign(['id_competition']);
+        Schema::table('premiants',function(Blueprint $table){
+            $table->dropForeign(['id_competition','id_athlet']);
         });
     }
 };

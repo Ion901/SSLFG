@@ -6,10 +6,12 @@ addBtn.addEventListener("click", function () {
     let newRow = document.createElement("tr");
     newRow.innerHTML = `
             <td>
-                <input type="text" name="inputs[${i}][fullName]" placeholder="Introdu numele complet al sportivului" class="form-control" />
-            </td>
-            <td>
-                <input type="number" class="yearpicker form-control" name="inputs[${i}][age]" placeholder="Anul nasterii"  >
+                <input type="hidden" name="inputs[${i}][id_athlet]" id="id_athlet_fetched">
+                    <select class="select-picker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" name="athlet_fullName" >
+                    <option value="" disabled selected>Numele premiantului</option>
+                        ${athlets.map(athlet => `<option value="${athlet.fullName}" data-athlet-id="${athlet.id}">${athlet.fullName}</option>`).join('')}
+
+                      </select>
             </td>
             <td>
                  <input type="number" name="inputs[${i}][weight]" placeholder="Greutateta sportivului" class="form-control">
@@ -36,14 +38,23 @@ addBtn.addEventListener("click", function () {
     //add competition id from evry new row added via js
     let selectElement = newRow.querySelector("#competition_name");
     let hiddenInput = newRow.querySelector("#id_competition_fetched");
+    let selectAthlet = newRow.querySelector(".select-picker");
+    let hiddenAthlet = newRow.querySelector("#id_athlet_fetched");
 
-        selectElement.addEventListener("change", function () {
+
+    selectElement.addEventListener("change", function () {
+        let selectedOption = this.options[this.selectedIndex];
+        hiddenInput.value = selectedOption.getAttribute("data-competition-id");
+    });
+    $(selectAthlet).on('change', function () { //pentru select2[plugin] interactioneaza cu eventurile diferit, de asta utilizez jquery
             let selectedOption = this.options[this.selectedIndex];
-            hiddenInput.value = selectedOption.getAttribute("data-competition-id");
+            hiddenAthlet.value = selectedOption.getAttribute("data-athlet-id");
+            // console.log(selectedOption);
+
         });
 
-    // Reinitialize yearpicker for the new row
-    $(newRow).find(".yearpicker").yearpicker();
+    // Reinitialize select-picker for the new row
+    $(newRow).find(".select-picker").select2();
 
     // Remove row functionality
     newRow.querySelector(".remove-table-row").addEventListener("click", function () {
@@ -53,6 +64,11 @@ addBtn.addEventListener("click", function () {
 
 //add copmetition id from the initial document(the first detail tabel row)
 let competitionInput = document.querySelector('#id_competition_fetched');
+let athletInput = document.querySelector('#id_athlet_fetched');
+$('.select-picker').on('change', function () {
+    let selectedOption = this.options[this.selectedIndex];
+    athletInput.value = selectedOption.getAttribute("data-athlet-id");
+})
 document.getElementById("competition_name").addEventListener("change", function () {
     let selectedOption = this.options[this.selectedIndex];
     competitionInput.value = selectedOption.dataset.competitionId;

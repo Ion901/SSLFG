@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="card-content">
-                                    <h1>{{ $athlet->fullName }}</h1>
+                                    <h1>{{$athlet->athlet->fullName }}</h1>
                                     <div class="wrestler-details">
                                         <div class="date gap-4 mb-2">
                                             <i class="fa-solid fa-medal"></i>
@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="date gap-4 mt-2">
                                             <i class="fa-solid fa-calendar-days"></i>
-                                            <p>Virsta: {{ $athlet->age }}</p>
+                                            <p>Virsta: {{ $athlet->athlet->age }}</p>
                                         </div>
                                     </div>
                                     <div class="date gap-4 mt-4">
@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="article-caption">
                                         {!! $post->post_content !!}
-                                        
+
                                     </div>
                                     <button>Citeste mai
                                         mult</button>

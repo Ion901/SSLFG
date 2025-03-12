@@ -34,7 +34,7 @@
                     <div class="premianti-participanti">
                         <ol>
                             @foreach ($post->athlets as $athlets)
-                                <li>{{ $athlets->fullName }} - Locul {{ $athlets->place }} la categoria
+                                <li>{{ $athlets->athlet->fullName }} - Locul {{ $athlets->place }} la categoria
                                     {{ $athlets->weight }} kg</li>
                             @endforeach
                         </ol>
@@ -131,7 +131,7 @@
                                 <div class="premianti-participanti">
                                     <ol>
                                         @foreach ($post->athlets as $athlets)
-                                            <li>{{ $athlets->fullName }} - Locul {{ $athlets->place }} la categoria
+                                            <li>{{ $athlets->athlet->fullName }} - Locul {{ $athlets->place }} la categoria
                                                 {{ $athlets->weight }} kg</li>
                                         @endforeach
                                     </ol>

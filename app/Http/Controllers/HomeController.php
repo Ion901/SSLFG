@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Athlets;
+use App\Models\Premiants;
 use App\Models\Competitions;
 use App\Models\Gallery;
 use App\Models\PostImages;
@@ -22,16 +22,16 @@ class HomeController extends Controller
             $post->competition = $post->competition()->first(['id'])?->id;
         });
 
-        $latestCompetitionId = Athlets::join('posts', 'athlets.id_competition', '=', 'posts.id_competition')
-        ->orderBy('athlets.id', 'desc')
+        $latestCompetitionId = Premiants::join('posts', 'premiants.id_competition', '=', 'posts.id_competition')
+        ->orderBy('premiants.id', 'desc')
         ->limit(1)
-        ->pluck('athlets.id_competition')
+        ->pluck('premiants.id_competition')
         ->first();
 
-        $athlets = Athlets::where('id_competition', $latestCompetitionId)
+        $athlets = Premiants::where('id_competition', $latestCompetitionId)
         ->orderBy('id', 'desc')
         ->get();
-
+        // dd(Premiants::first()->athlet->fullName);
 
         $athlets->each(function($athlet){
             $athlet->postCompetition = Posts::where('id_competition',$athlet->id_competition)->value('post_slug');
@@ -71,7 +71,7 @@ class HomeController extends Controller
         // dd($post->images);
         if($post->id_category === 1){
             $post->competition = $post->competition()->first();
-            $post->athlets = Athlets::where('id_competition',$post->competition->id)->get();
+            $post->athlets = Premiants::where('id_competition',$post->competition->id)->get();
         }
         if(count($post->images) <= 3){
             return view('pages.noutati',['error' => 'Needs more photos']);
