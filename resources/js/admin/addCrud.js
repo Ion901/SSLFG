@@ -2,74 +2,102 @@ let addBtn = document.querySelector("#add");
 let table = document.querySelector("#table>tbody");
 let i = 1;
 
+// Setup for initial row
+const initialRow = table.querySelectorAll("tr")[1];
+
+
+if (initialRow) {
+    setupRowEvents(initialRow);
+}
+
+// Add new row
 addBtn.addEventListener("click", function () {
     let newRow = document.createElement("tr");
     newRow.innerHTML = `
-            <td>
-                <input type="hidden" name="inputs[${i}][id_athlet]" id="id_athlet_fetched">
-                    <select class="select-picker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" name="athlet_fullName" >
-                    <option value="" disabled selected>Numele premiantului</option>
-                        ${athlets.map(athlet => `<option value="${athlet.fullName}" data-athlet-id="${athlet.id}">${athlet.fullName}</option>`).join('')}
-
-                      </select>
-            </td>
-            <td>
-                 <input type="number" name="inputs[${i}][weight]" placeholder="Greutateta sportivului" class="form-control">
-            </td>
-            <td>
-                <input type="number" name="inputs[${i}][place]" placeholder="Loc ocupat" class="form-control">
-            </td>
-            <td>
-                    <input type="hidden" name="inputs[${i}][id_competition]" id="id_competition_fetched">
-                    <select id="competition_name" name="competition_name"
-                        class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
-                        <option value="" disabled selected>Numele competitiei</option>
-                            ${competitions.map(comp => `<option value="${comp.name}" data-competition-id="${comp.id}">${comp.name}</option>`).join('')}
-                    </select>
-                </td>
-            <td>
-                <button type="button" class="btn btn-danger remove-table-row">Sterge</button>
-            </td>
+        <td>
+            <input type="hidden" name="inputs[${i}][id_athlet]" class="id_athlet_fetched">
+            <select class="select-picker w-full p-2 border border-gray-300 rounded" name="athlet_fullName">
+                <option value="" disabled selected>Numele premiantului</option>
+                ${athlets.map(athlet => `<option value="${athlet.fullName}" data-athlet-id="${athlet.id}">${athlet.fullName}</option>`).join('')}
+            </select>
+        </td>
+        <td><input type="number" name="inputs[${i}][weight]" placeholder="Greutatea sportivului" class="form-control"></td>
+        <td><input type="number" name="inputs[${i}][place]" placeholder="Loc ocupat" class="form-control"></td>
+        <td>
+            <input type="hidden" name="inputs[${i}][id_competition]" class="id_competition_fetched">
+            <select id="competition_name" class="w-full p-2 border border-gray-300 rounded">
+                <option value="" disabled selected>Numele competitiei</option>
+                ${competitions.map(comp => `<option value='${comp.name}' data-competition-id="${comp.id}">${comp.name}</option>`).join('')}
+            </select>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger remove-table-row">Sterge</button>
+        </td>
     `;
 
     table.appendChild(newRow);
     i++;
 
-    //add competition id from evry new row added via js
-    let selectElement = newRow.querySelector("#competition_name");
-    let hiddenInput = newRow.querySelector("#id_competition_fetched");
-    let selectAthlet = newRow.querySelector(".select-picker");
-    let hiddenAthlet = newRow.querySelector("#id_athlet_fetched");
+    // Activate all logic for new row
+    setupRowEvents(newRow);
 
-
-    selectElement.addEventListener("change", function () {
-        let selectedOption = this.options[this.selectedIndex];
-        hiddenInput.value = selectedOption.getAttribute("data-competition-id");
-    });
-    $(selectAthlet).on('change', function () { //pentru select2[plugin] interactioneaza cu eventurile diferit, de asta utilizez jquery
-            let selectedOption = this.options[this.selectedIndex];
-            hiddenAthlet.value = selectedOption.getAttribute("data-athlet-id");
-            // console.log(selectedOption);
-
-        });
-
-    // Reinitialize select-picker for the new row
+    // Reinitialize select2
     $(newRow).find(".select-picker").select2();
 
-    // Remove row functionality
+    // Delete row
     newRow.querySelector(".remove-table-row").addEventListener("click", function () {
         newRow.remove();
     });
 });
 
-//add copmetition id from the initial document(the first detail tabel row)
-let competitionInput = document.querySelector('#id_competition_fetched');
-let athletInput = document.querySelector('#id_athlet_fetched');
-$('.select-picker').on('change', function () {
-    let selectedOption = this.options[this.selectedIndex];
-    athletInput.value = selectedOption.getAttribute("data-athlet-id");
-})
-document.getElementById("competition_name").addEventListener("change", function () {
-    let selectedOption = this.options[this.selectedIndex];
-    competitionInput.value = selectedOption.dataset.competitionId;
-});
+// Setup events per row
+function setupRowEvents(row) {
+
+    const competitionSelect = row.querySelector("#competition_name");
+    const athleteSelect = row.querySelector(".select-picker");
+    const hiddenAthletId = row.querySelector(".id_athlet_fetched");
+    const hiddenCompetitionId = row.querySelector(".id_competition_fetched");
+
+    console.info(competitionSelect);
+
+    if (!competitionSelect || !athleteSelect) return;
+
+    competitionSelect.addEventListener("change", function () {
+        let selectedOption = this.options[this.selectedIndex];
+        let competitionName = selectedOption.value;
+        console.log(competitionName);
+
+        let competitionId = this.selectedOptions[0]?.dataset.competitionId || "";
+        console.log(competitionId);
+
+        hiddenCompetitionId.value = competitionId;
+
+        fetch(`/athlets-available?competition=${competitionName}`)
+            .then((res) => res.json())
+            .then((data) => {
+                athleteSelect.innerHTML = `<option value="" disabled selected>Select an athlete</option>`;
+                if (data.length > 0) {
+                    data.forEach((athlet) => {
+                        const opt = document.createElement("option");
+                        opt.value = athlet.fullName;
+                        opt.textContent = athlet.fullName;
+                        opt.setAttribute("data-athlet-id", athlet.id);
+                        athleteSelect.appendChild(opt);
+                    });
+                } else {
+                    const opt = document.createElement("option");
+                    opt.textContent = "Nu mai sunt sportivi";
+                    opt.disabled = true;
+                    athleteSelect.appendChild(opt);
+                }
+
+                // Refresh select2 for athleteSelect
+                $(athleteSelect).select2();
+            });
+    });
+
+    $(athleteSelect).on('change', function () {
+        const selected = this.options[this.selectedIndex];
+        hiddenAthletId.value = selected?.dataset.athletId || "";
+    });
+}

@@ -33,8 +33,13 @@
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-1 space-y-1">
-            <x-responsive-nav-link :href="route('athlets')" :active="request()->routeIs('athlets')">
-                {{ __('Atleți') }}
+            <x-responsive-nav-link :href="route('premiants')" :active="request()->routeIs('premiants')">
+                {{ __('Premianți') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-1 space-y-1">
+            <x-responsive-nav-link :href="route('premiants')" :active="request()->routeIs('premiants')">
+                {{ __('Date sportivi') }}
             </x-responsive-nav-link>
         </div>
 

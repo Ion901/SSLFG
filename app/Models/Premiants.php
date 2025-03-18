@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Premiants extends Model
 {
     protected $table = 'premiants';
-    protected $fillable = ['fullName','age','weight','place','id_competition'];
+    protected $fillable = ['fullName','age','weight','place','id_competition','id_athlet'];
     public $timestamps = false;
 
     public function competition(){

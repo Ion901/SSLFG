@@ -210,14 +210,14 @@ class PostsController extends Controller
 
         if (request('content')) {
             if (strtolower($post->post_content) != strtolower($request->content) && //contentul este schimbat
-                Posts::where('post_content',$request->content)->where('id', '!=', $post->id)->exists()){ //contentul este acelasi cu alt titlu din tabel){
+                Posts::where('post_content',$request->content)->where('id', '!=', $post->id)->exists()){ //contentul este acelasi cu alt content din tabel){
                 return redirect()->back()->with('error', 'This post content already exists.');
             }elseif($post->post_content !== $request->content){
                 $updates['post_content'] = $request->content;
             }
         }
         // dd(!is_null($post->id_competition));
-        if (request('category') && $request->category === 'SPORT' && !is_null($post->id_competition)) {
+        if (request('category') && $request->category === 'SPORT' && !is_null($post->id_competition)) { //este aleasa categoria, este Sport si este o postare sportive initial
 
             if ($request->filled('competition_name')) {
                 $competition = $post->competition; // Get the related competition
@@ -298,7 +298,7 @@ class PostsController extends Controller
 
                 }
             }
-        }else if(request('category') && $request->category !== 'SPORT'){
+        }else if(request('category') && $request->category !== 'SPORT'){ //categorie nu este SPORT
             // $post->id_category = Category::where('type',$request->category)->value('id');
             $updates['id_category'] = Category::where('type',$request->category)->value('id');
             $updates['id_competition'] = null;
@@ -310,9 +310,7 @@ class PostsController extends Controller
 
         // If only updates exist, update the post
         if ($hasUpdates && !$hasImages) {
-            // dd($post);
             $post->update($updates);
-            // dd($post->id_category);
             return redirect()->back()->with('success', 'Updated successfully');
         }
 

@@ -26,9 +26,9 @@ class PremiantsController extends Controller
      */
     public function create()
     {
-        $year = Carbon::now()->year; //anul curent
+        $year         = Carbon::now()->year; //anul curent
         $competitions = Competitions::whereYear('date',$year)->get();//Competitiile anului curent
-        $athlets = Athlets::all();
+        $athlets      = Athlets::all();
 
         return view('admin.atleti.create',['competitions' => $competitions,'athlets'=>$athlets]);
     }
@@ -38,22 +38,21 @@ class PremiantsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
         $request->validate([
-            'inputs.*.id_athlet' => 'required|integer',
-            'inputs.*.weight' => 'required|integer',
-            'inputs.*.place' => 'required|integer',
+            'inputs.*.id_athlet'      => 'required|integer',
+            'inputs.*.weight'         => 'required|integer',
+            'inputs.*.place'          => 'required|integer',
             'inputs.*.id_competition' => 'required|integer'
         ],[
-            'inputs.*.id_athlet' => 'Numele este obligatoriu',
-            'inputs.*.weight' => 'Categoria este obligatoriu',
-            'inputs.*.place' => 'Locul ocupat este obligatoriu',
+            'inputs.*.id_athlet'      => 'Numele este obligatoriu',
+            'inputs.*.weight'         => 'Categoria este obligatoriu',
+            'inputs.*.place'          => 'Locul ocupat este obligatoriu',
             'inputs.*.id_competition' => 'Numele competitiei este obligatoriu'
         ]);
 
 
         foreach($request->inputs as $key => $value){
-            // dd($value);
             Premiants::create($value);
         }
         return redirect()->back()->with('success','The athletes are succesfuly saved');
@@ -85,37 +84,56 @@ class PremiantsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request);
+        $premiant = Premiants::findOrFail($id);
+        $updates = [];
         $request->validate([
-            'athlet_name' => 'required|string',
-            'athlet_age' => 'required|integer',
-            'athlet_weight' => 'required|integer',
-            'athlet_place' => 'required|integer',
+            'athlet_id_fetched'  => 'required|integer',
+            'athlet_weight'      => 'required|integer',
+            'athlet_place'       => 'required|integer',
             'athlet_competition' => 'required|string'
         ],
         [
-            'athlet_name' => 'Numele sportivului este obligatoriu',
-            'athlet_age' => 'Virsta Este obligatorie',
-            'athlet_weight' => 'Greuatatea este obligatorie',
-            'athlet_place' => 'Locul ocupat este obligatoriu',
+            'athlet_id_fetched'  => 'Numele sportivului este obligatoriu',
+            'athlet_weight'      => 'Greuatatea este obligatorie',
+            'athlet_place'       => 'Locul ocupat este obligatoriu',
             'athlet_competition' => 'Competitia este obligatorie']
     );
 
-    $data_from_request        = $request->all();
-    $data_from_db             = Premiants::findOrFail($id);
-    $athlet_name_from_request = strtolower(preg_replace('/\s/u','',$data_from_request['athlet_name']));
-    $athlet_name_from_db      = strtolower(preg_replace('/\s/u','',$data_from_db['fullName']));
-    $existAthlete             = Premiants::where('fullName',$data_from_request['athlet_name'])->where('age',$data_from_request['athlet_age'])->exists();
+        $idCompetition              = Competitions::where('name',$request->athlet_competition)->value('id');
+        $isSameWeight               = $premiant->weight == $request->athlet_weight;
+        $isSameAthlete              = $premiant->id_athlet == $request->athlet_id_fetched;
+        $athleteExistsInCompetition = Premiants::where('id_athlet', $request->athlet_id_fetched)
+                                                ->where('id_competition', $idCompetition)
+                                                ->exists();
 
-    // dd($athlet_name_from_request,  $athlet_name_from_db);
-
-    if($athlet_name_from_request !== $athlet_name_from_db ){
-        if($existAthlete){
-            return redirect()->back()->with('error','Acest sportiv este deja adaugat');
+        if($request->athlet_place && $premiant->place != $request->athlet_place){
+            $updates['place'] = (int)$request->athlet_place;
         }
-    }else{
 
-    }
+        if($request->athlet_competition && $premiant->id_competition != $idCompetition){
+            $updates['id_competition'] = $idCompetition;
+        }
+
+        if (!$athleteExistsInCompetition) {
+            if ($isSameWeight) { //Schimbam sportivul dar greutatea nu
+                $updates['id_athlet'] = (int) $request->athlet_id_fetched;
+            } else { //Schimbam sportivul si schimbam si greutatea
+                $updates['id_athlet'] = (int)$request->athlet_id_fetched;
+                $updates['weight'] = (int) $request->athlet_weight;
+            }
+        } else {
+            if ($isSameAthlete && !$isSameWeight) { //Nu schimbam sportivul, schimbam greutatea
+                $updates['weight'] = (int) $request->athlet_weight;
+            }
+        }
+
+
+        if(!empty($updates)){
+            $premiant->update($updates);
+            return redirect()->back()->with('success','Actualizat cu succes');
+        }else{
+            return redirect()->back()->with('error','Nu este nici o modificare');
+        }
 
 
     }

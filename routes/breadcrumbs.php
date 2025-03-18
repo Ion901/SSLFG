@@ -19,7 +19,7 @@ Breadcrumbs::for('competitions', function (BreadcrumbTrail $trail) {
 });
 
 Breadcrumbs::for('sportivi', function (BreadcrumbTrail $trail) {
-    $trail->push('Sportivi', route('athlets'));
+    $trail->push('Sportivi', route('premiants'));
 });
 
 Breadcrumbs::for('about',function(BreadcrumbTrail $trail){
@@ -61,7 +61,7 @@ Breadcrumbs::for('addCompetition', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('addAthlets', function (BreadcrumbTrail $trail) {
     $trail->parent('sportivi');
-    $trail->push('Adauga sportivi', route('athlets.create'));
+    $trail->push('Adauga sportivi', route('premiants.create'));
 });
 
 Breadcrumbs::for('viewPost', function (BreadcrumbTrail $trail) {
@@ -80,16 +80,16 @@ Breadcrumbs::for('editPost', function (BreadcrumbTrail $trail) {
 });
 
 Breadcrumbs::for('editCompetition', function (BreadcrumbTrail $trail) {
-    $trail->parent('post');
+    $trail->parent('competitions');
     preg_match("/competitions\/(\d+)\/edit/",request()->path(),$matches);
     $id = $matches[1];
     $competition_name = Competitions::where('id',$id)->valueOrFail('name');
-    $trail->push('Editeaza Postarea', route('posts.edit',$competition_name));
+    $trail->push('Editează Competiția', route('posts.edit',$competition_name));
 });
 
 Breadcrumbs::for('editAthlet', function (BreadcrumbTrail $trail) {
     $trail->parent('sportivi');
-    preg_match("/athlets\/(\d+)\/edit/",request()->path(),$matches);
+    preg_match("/premiants\/(\d+)\/edit/",request()->path(),$matches);
     $id = $matches[1];
     $athlet_name = Athlets::where('id',$id)->valueOrFail('fullName');
     $trail->push('Editeaza datele sportivului', route('posts.edit',$athlet_name));

@@ -32,7 +32,7 @@
             {{ session()->get('success') }}
         </div>
     @endif
-    <form action="{{ route('athlets.store') }}" method="POST" class="p-4 bg-white shadow-md rounded-lg">
+    <form action="{{ route('premiants.store') }}" method="POST" class="p-4 bg-white shadow-md rounded-lg">
         @csrf
         <table class="table table-bordered" id="table">
             <tr>
@@ -45,8 +45,8 @@
             </tr>
             <tr>
                 <td>
-                    <input type="hidden" name="inputs[0][id_athlet]" id="id_athlet_fetched">
-                    <select name="athlet_fullName" class="select-picker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" >
+                    <input type="hidden" name="inputs[0][id_athlet]" class="id_athlet_fetched">
+                    <select name="athlet_fullName" class="select-picker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" id="athlet_name">
                         <option value="" disabled selected>Numele premiantului</option>
                         @foreach ($athlets as $athlet)
                         <option value="{{ $athlet->fullName }}" data-athlet-id="{{ $athlet->id }}">
@@ -63,7 +63,7 @@
                     <input type="number" name="inputs[0][place]" placeholder="Loc ocupat" class="form-control">
                 </td>
                 <td>
-                    <input type="hidden" name="inputs[0][id_competition]" id="id_competition_fetched">
+                    <input type="hidden" name="inputs[0][id_competition]" class="id_competition_fetched">
                     <select id="competition_name" name="competition_name"
                         class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
                         <option value="" disabled selected>Numele competitiei</option>
@@ -83,7 +83,7 @@
         <button type="submit" class="w-fit bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Trimite
         </button>
-        <a href="{{ url('/athlets') }}"
+        <a href="{{ url('/premiants') }}"
             class="w-fit bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-block">
             Anuleaza
         </a>
