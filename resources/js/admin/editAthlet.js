@@ -14,7 +14,7 @@
     competition.addEventListener('change', function () {
         const selectedOption = this.options[this.selectedIndex];
         const competitionName = selectedOption.value;
-        fetchAthlets(competitionName);
+        fetchAthlets(competitionName, initialAthlet, initialAthletID);
     });
 });
 
@@ -44,7 +44,7 @@ function fetchAthlets(competitionName, initialAthlet = null,id) {
             if (data.length > 0) {
                 data.forEach(athlet => {
                     if (athlet.fullName === initialAthlet) return;
-
+            
                     const option = document.createElement('option');
                     option.value = athlet.fullName;
                     option.textContent = athlet.fullName;

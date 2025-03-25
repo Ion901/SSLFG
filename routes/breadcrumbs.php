@@ -14,12 +14,16 @@ Breadcrumbs::for('post', function (BreadcrumbTrail $trail) {
     $trail->push('Postari', route('posts'));
 });
 
+Breadcrumbs::for('athlets', function (BreadcrumbTrail $trail) {
+    $trail->push('Sportivi', route('athlets.index'));
+});
+
 Breadcrumbs::for('competitions', function (BreadcrumbTrail $trail) {
     $trail->push('Competiții', route('competitions'));
 });
 
 Breadcrumbs::for('sportivi', function (BreadcrumbTrail $trail) {
-    $trail->push('Sportivi', route('premiants'));
+    $trail->push('Premianți', route('premiants'));
 });
 
 Breadcrumbs::for('about',function(BreadcrumbTrail $trail){
@@ -61,8 +65,14 @@ Breadcrumbs::for('addCompetition', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('addAthlets', function (BreadcrumbTrail $trail) {
     $trail->parent('sportivi');
-    $trail->push('Adauga sportivi', route('premiants.create'));
+    $trail->push('Adauga premianti', route('premiants.create'));
 });
+
+Breadcrumbs::for('addSportivi', function (BreadcrumbTrail $trail) {
+    $trail->parent('athlets');
+    $trail->push('Adauga sportivi', route('athlets.create'));
+});
+
 
 Breadcrumbs::for('viewPost', function (BreadcrumbTrail $trail) {
     $trail->parent('post');
@@ -87,12 +97,19 @@ Breadcrumbs::for('editCompetition', function (BreadcrumbTrail $trail) {
     $trail->push('Editează Competiția', route('posts.edit',$competition_name));
 });
 
-Breadcrumbs::for('editAthlet', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('editPremiant', function (BreadcrumbTrail $trail) {
     $trail->parent('sportivi');
     preg_match("/premiants\/(\d+)\/edit/",request()->path(),$matches);
     $id = $matches[1];
-    $athlet_name = Athlets::where('id',$id)->valueOrFail('fullName');
-    $trail->push('Editeaza datele sportivului', route('posts.edit',$athlet_name));
+    $trail->push('Editeaza datele premiantului', route('premiants.edit',$id));
 });
+
+Breadcrumbs::for('editAthlet', function (BreadcrumbTrail $trail) {
+    $trail->parent('athlets');
+    preg_match("/athlets\/(\d+)\/edit/",request()->path(),$matches);
+    $id = $matches[1];
+    $trail->push('Editeaza datele sportivului', route('athlets.edit',$id));
+});
+
 
 

@@ -3,10 +3,7 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
 
-<link href="{{ asset('build/assets/yearpicker.css') }}" rel="stylesheet" />
-<script src="{{ asset('build/assets/yearpicker.js') }}" async></script>
-
-@vite(['resources/css/breadcrumb.css', 'resources/js/admin/addCrud.js'])
+@vite(['resources/css/breadcrumb.css', 'resources/js/admin/addCrudFetched.js'])
 
 
 <x-dash-app-layout>

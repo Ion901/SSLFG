@@ -136,6 +136,7 @@
                                         @endforeach
                                     </ol>
                                 </div>
+                                @endif
                                 <div class="images-post">
                                     @foreach ($post->images as $index => $image)
                                     <div class="images-slider">
@@ -153,7 +154,7 @@
                                         <span class="next">&#10095;</span>
                                     </div>
                                 </div>
-                            @endif
+
                         </div>
                     </div>
                 </div>

@@ -38,8 +38,13 @@
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-1 space-y-1">
-            <x-responsive-nav-link :href="route('premiants')" :active="request()->routeIs('premiants')">
+            <x-responsive-nav-link :href="route('athlets.index')" :active="request()->routeIs('athlets.index')">
                 {{ __('Date sportivi') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-1 space-y-1">
+            <x-responsive-nav-link :href="route('gallery')" :active="request()->routeIs('gallery')">
+                {{ __('Galerie foto') }}
             </x-responsive-nav-link>
         </div>
 

@@ -38,7 +38,7 @@ class PremiantsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         $request->validate([
             'inputs.*.id_athlet'      => 'required|integer',
             'inputs.*.weight'         => 'required|integer',
@@ -143,6 +143,10 @@ class PremiantsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $premiant = Premiants::findOrFail($id);
+        $premiant->delete();
+
+        return redirect()->route('premiants')->with('success','Premiantul a fost șters cu succes');
+
     }
 }

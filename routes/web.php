@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\Competitions;
 use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\PremiantsController;
+use App\Http\Controllers\Admin\AthletsController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Models\Athlets;
@@ -45,6 +47,23 @@ Route::resource('premiants',PremiantsController::class)
     'index' => 'premiants'
 ]);
 
+Route::resource('gallery', GalleryController::class)
+->middleware('auth')
+->names([
+    'index'=> 'gallery'
+]);
+
+Route::controller(AthletsController::class)->middleware('auth')->group(function () {
+    Route::get('/athlets', 'index')->name('athlets.index');
+    Route::get('/athlets/create', 'create')->name('athlets.create');
+    Route::get('/athlets/{id}/edit', 'edit')->name('athlets.edit');
+    Route::patch('/athlets/{id}', 'update')->name('athlets.update');
+    Route::post('athlets/store','store')->name('athlets.store');
+    Route::delete('/athlets/destroy/{id}', 'destroy')->name('athlets.destroy');
+});
+
+
+
 Route::get('/competitions-available', function (Request $request) {
     if ($request->category === 'SPORT') {
         //toata competitiile disponibile care nu au fost incluse intr-o postare
@@ -58,7 +77,6 @@ Route::get('/competitions-available', function (Request $request) {
 
 Route::get('/athlets-available', function (Request $request){
     $idCompetition = Competitions::where('name',$request->competition)->value('id');
-    // dd($request->competition);
     if($idCompetition)
     //afiseaza lista sportivillor care nu au luat loc la competitia selectata(venita din request);
     $athlets = Athlets::whereNotIn('id', function($query) use ($idCompetition){

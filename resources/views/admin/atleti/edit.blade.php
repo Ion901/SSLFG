@@ -6,7 +6,7 @@
 
 <x-dash-app-layout>
     <div class="page">
-        {{ Breadcrumbs::render('editAthlet') }}
+        {{ Breadcrumbs::render('editPremiant') }}
     </div>
     @if ($errors->any())
         <div class="alert alert-danger">
