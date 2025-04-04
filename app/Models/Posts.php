@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class Posts extends Model
 {
     protected $fillable = ['post_title','post_content','post_date'=>'datetime','id_category','id_competition'];
     public $timestamps = false;
+    use Filterable;
     public function image(){
         return $this->hasMany(PostImages::class,'id_post');
     }

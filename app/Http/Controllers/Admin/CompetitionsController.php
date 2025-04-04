@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\CompetitionFilter;
 use App\Models\Competitions;
 use Illuminate\Http\Request;
 
@@ -11,9 +12,19 @@ class CompetitionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $competitions = Competitions::paginate(10);
+        $data = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date|after_or_equal:date_from',
+        ]);
+
+
+        $filter = app()->make(CompetitionFilter::class,['queryParams' => array_filter($data)]);
+
+        $competitions = Competitions::filter($filter)->paginate(10);
         return view('admin.competitions.index', ['competitions' => $competitions]);
     }
 
@@ -53,7 +64,9 @@ class CompetitionsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {}
+    public function show(string $id) {
+
+    }
 
     /**
      * Show the form for editing the specified resource.

@@ -82,24 +82,25 @@
         <section class="left-section">
             @foreach ($posts as $post)
                 @if ($post->images)
-                    <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
-                        <article>
+                <article>
+                            <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
                             <div class="up-part">
                                 <h3>{{ $post->post_title }}</h3>
                             </div>
+                            <p >{{date('Y-m-d', strtotime($post->post_date))}}</p>
                             <hr>
                             <div class="bottom-part">
                                 <div class="article-image">
                                     <img src="{{ asset($post->images) }}" alt="no image">
                                 </div>
                                 <div class="article-caption">
-                                    {!! $post->post_content !!}
+                                    {!! Str::limit($post->post_content, 200) !!}
                                 </div>
                                 <button>Citeste mai
                                     mult</button>
                             </div>
+                        </a>
                         </article>
-                    </a>
                 @endif
             @endforeach
 
@@ -155,6 +156,22 @@
                                     </div>
                                 </div>
 
+                        </div>
+                    </div>
+                    <div class="mt-[5rem] pb-[5rem]">
+                        <h2 class="text-[2.8rem] mb-[2rem]">Postări Recente</h2>
+                        <div class="articles">
+                            @foreach ($posts as $post)
+                            {{-- @if($post->image) --}}
+                            <a id="slug" href="{{route('NewsPost', ['slug' => $post->post_slug])}}">
+                            <article id="article" class="mb-[1rem]" >
+                                <div class="img-ctn"><img src="{{$post->image}}" alt="no image"></div>
+                                <div class="post_title"><h3>{{$post->post_title}}</h3></div>
+                                <div class="point-read"><i class="fa-solid fa-square-up-right"></i></div>
+                            </article>
+                        </a>
+                        {{-- @endif --}}
+                            @endforeach
                         </div>
                     </div>
                 </div>

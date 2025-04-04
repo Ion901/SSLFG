@@ -14,8 +14,12 @@ Breadcrumbs::for('post', function (BreadcrumbTrail $trail) {
     $trail->push('Postari', route('posts'));
 });
 
+Breadcrumbs::for('gallery', function (BreadcrumbTrail $trail) {
+    $trail->push('Galerie Foto', route('gallery'));
+});
+
 Breadcrumbs::for('athlets', function (BreadcrumbTrail $trail) {
-    $trail->push('Sportivi', route('athlets.index'));
+    $trail->push('Sportivi', route('athlets'));
 });
 
 Breadcrumbs::for('competitions', function (BreadcrumbTrail $trail) {
@@ -71,6 +75,11 @@ Breadcrumbs::for('addAthlets', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('addSportivi', function (BreadcrumbTrail $trail) {
     $trail->parent('athlets');
     $trail->push('Adauga sportivi', route('athlets.create'));
+});
+
+Breadcrumbs::for('addPhoto', function (BreadcrumbTrail $trail) {
+    $trail->parent('gallery');
+    $trail->push('Adauga fotografie/ii', route('gallery.create'));
 });
 
 

@@ -111,8 +111,8 @@
             <section class="left-section ">
                 @foreach ($posts as $post)
                     @if ($post->images)
+                    <article>
                         <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
-                            <article>
                                 <div class="up-part">
                                     <h3>{{ $post->post_title }}</h3>
                                 </div>
@@ -122,14 +122,14 @@
                                         <img src="{{ asset($post->images) }}" alt="no image">
                                     </div>
                                     <div class="article-caption">
-                                        {!! $post->post_content !!}
+                                        {!! Str::limit($post->post_content, 200) !!}
 
                                     </div>
                                     <button>Citeste mai
                                         mult</button>
                                 </div>
-                            </article>
-                        </a>
+                            </a>
+                        </article>
                     @endif
                 @endforeach
             </section>

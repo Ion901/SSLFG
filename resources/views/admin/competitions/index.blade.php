@@ -1,3 +1,4 @@
+@vite('resources/css/admin/filterNavbar.css')
 <x-dash-app-layout>
 
     <div class="flex ml-8">
@@ -7,37 +8,25 @@
         <h1 class="justify-content-sm-center text-center text-3xl m-0 m-auto">Competiții</h1>
     </div>
 
-<table class="m-0 m-auto table table-bordered table-hover">
-    <tr>
-        <th>Titlu</th>
-        <th>Category</th>
-        <th>Date</th>
-    </tr>
-    @foreach ($competitions as $competition)
-    <tr class="border-b-4 border-black mb-2">
-            <td class="break-words text-left pr-3">{{$competition->name}}</td>
-            <td class="pr-3">{{$competition->location}}</td>
-            <td class="pr-3">{{Str::replaceMatches('/\s\d.*/', '', $competition->date) }}</td>
-            <td>
-                <x-crud-button :href="route('competitions.edit',$competition->id)" :edit="true">
-                    Edit
-                </x-crud-button>
-            </td>
-            <td>
+    <x-table-filter
+    :tableName="'competitions'"
+    id="id"
+    :columns="[
+        'name' => 'Titlu',
+        'location' => 'Locatie',
+        'date' => 'Date'
+    ]"
+    :data="$competitions"
+    :filters="[
+        'name' => ['type' => 'text', 'placeholder' => 'Cauta dupa numele competiției'],
+        'location' => ['type' => 'text','placeholder' => 'Cauta dupa numele orașului'],
+        'from_date' => ['type' => 'date', 'label' => 'Începând cu:'],
+        'to_date' => ['type' => 'date', 'label' => 'Pînă pe:']
+    ]"
+    :actions="['view' => false, 'edit' => true, 'delete' => true]"
+    />
 
-                <form action="{{route('competitions.destroy', $competition->id)}}" method="POST" id="delete">
-                    @csrf
-                    @method('DELETE')
-                    <x-crud-button :delete="true"  onclick="return confirm('Esti sigur ca vrei sa stergi aceasta competitie?')">
-                        Delete
-                    </x-crud-button>
-                </form>
-
-            </td>
-    </tr>
-    @endforeach
-</table>
 <div class="flex justify-center mt-3">
-    {{ $competitions->links() }}
+    {{ $competitions->withQueryString()->links() }}
 </div>
 </x-dash-app-layout>

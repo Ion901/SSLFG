@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -9,6 +10,7 @@ class Competitions extends Model
 {
     protected $fillable = ['name','location','date'];
     public $timestamps = false;
+    use Filterable;
 
     protected $casts = [
         'date' => 'datetime', // Ensures it's treated as a Carbon instance

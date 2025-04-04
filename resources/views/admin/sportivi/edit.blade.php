@@ -36,8 +36,7 @@
                     class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                     value="{{ $athlet->fullName}}">
 
-                <label for="athlet_birthdate" name="athlet_birthdate" class="block text-gray-700 font-bold mb-2">Data
-                    competitiei</label>
+                <label for="athlet_birthdate" name="athlet_birthdate" class="block text-gray-700 font-bold mb-2">Anul Nasterii</label>
                     <input type="number" id="athlet_birthdate" name="athlet_birthdate"
                     class="yearpicker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                     placeholder="Anul nasterii">

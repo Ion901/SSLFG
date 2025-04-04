@@ -17,11 +17,7 @@
 
     <!-- Responsive Navigation Menu -->
 
-        <div class="pt-10 pb-1 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
+      
         <div class="pt-2 pb-1 space-y-1">
             <x-responsive-nav-link :href="route('posts')" :active="request()->routeIs('posts')">
                 {{ __('Postări') }}
@@ -38,7 +34,7 @@
             </x-responsive-nav-link>
         </div>
         <div class="pt-2 pb-1 space-y-1">
-            <x-responsive-nav-link :href="route('athlets.index')" :active="request()->routeIs('athlets.index')">
+            <x-responsive-nav-link :href="route('athlets')" :active="request()->routeIs('athlets')">
                 {{ __('Date sportivi') }}
             </x-responsive-nav-link>
         </div>

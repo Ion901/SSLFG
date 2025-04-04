@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\SportiviFilter;
 use App\Models\Athlets;
 use Illuminate\Http\Request;
 
 class AthletsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $athlets = Athlets::paginate(12);
+        $data = $request->validate([
+            'fullName' => 'nullable|string|max:255',
+            'age' => 'nullable|int|exists:athlets,age'
+        ]);
+
+        $filter = app()->make(SportiviFilter::class,['queryParams' => array_filter($data)]);
+        $athlets = Athlets::filter($filter)->paginate(12);
 
         return view('admin.sportivi.index', ['athlets' => $athlets]);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\PremiantsFilter;
 use App\Models\Athlets;
 use App\Models\Premiants;
 use App\Models\Competitions;
@@ -14,11 +15,33 @@ class PremiantsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $athlets = Premiants::paginate(12);
 
-        return view('admin.atleti.index',['athlets'=>$athlets]);
+        $data = $request->validate([
+            'fullName' => 'nullable|string|max:255',
+            'age' => 'nullable|int|exists:athlets,age',
+            'competition' => 'nullable|string',
+            'weight' => 'nullable|int',
+            'place' => 'nullable|int',
+        ]);
+
+        $filter = app()->make(PremiantsFilter::class, ['queryParams' => array_filter($data)]);
+
+
+        $athletes = Premiants::with('athlet')->filter($filter)->paginate(12)->through(function($athlet){
+            return [
+            'id'=> $athlet->id,
+            'fullName' => $athlet->fullName(),
+            'age' => $athlet->age(),
+            'weight' => $athlet->weight,
+            'place' => $athlet->place,
+            'competitionName' => $athlet->competitionName()
+            ];
+        });
+
+
+        return view('admin.atleti.index',['athletes'=>$athletes]);
     }
 
     /**

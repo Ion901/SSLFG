@@ -64,7 +64,17 @@ class HomeController extends Controller
         return view('pages.contacte');
     }
 
-    public function post($slug){
+    public function post(Request $request, $slug){
+
+        // $postSlug = $request->post_slug;
+        $posts = Posts::where('post_slug', '!=', $slug)->whereNotNull('post_content')->inRandomOrder()->take(3)->get();
+        // dump($slug);
+        $posts->each(function($post){
+            $post->image = $post->image()->where('id_post',$post->id)->whereNotNull('image_path')->first(['image_path'])?->image_path;
+        });
+        // dd($posts);  
+
+        // return response()->json($posts);
 
         $post = Posts::where('post_slug',$slug)->firstOrFail();
         $post->images = $post->image()->where('id_post',$post->id)->pluck('image_path');
@@ -73,10 +83,11 @@ class HomeController extends Controller
             $post->competition = $post->competition()->first();
             $post->athlets = Premiants::where('id_competition',$post->competition->id)->get();
         }
-        if(count($post->images) <= 3){
+
+        if(count($post->images) <= 1 && !$post->post_content){
             return view('pages.noutati',['error' => 'Needs more photos']);
         }else{
-            return view('pages.noutati',['post'=>$post]);
+            return view('pages.noutati',['post'=>$post,'posts'=>$posts]);
         }
     }
 

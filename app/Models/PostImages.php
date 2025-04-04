@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostImages extends Model
 {
-    protected $fillable = ['image_path','post_id'];
+    protected $fillable = ['image_path','id_post','id_competition'];
     public $timestamps = false;
 
     public function post(){

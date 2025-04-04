@@ -1,0 +1,66 @@
+.filter-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+}
+.search {
+    position: relative;
+}
+
+.select-category select {
+    padding: 0px 10px 0px 10px;
+    height: 35px;
+    border: 1px solid #adabab;
+    border-radius: 4px;
+    transition: box-shadow 0.2s ease-in-out;
+    outline: none;
+}
+.search input {
+    padding: 8px 16px;
+    height: 35px;
+    width: 280px;
+    text-indent: 25px;
+    border: 1px solid #adabab;
+    border-radius: 4px;
+    transition: box-shadow 0.2s ease-in-out;
+    outline: none;
+}
+.select-from-date input, .select-to-date input, .weight-search input{
+    padding: 0px 10px 0px 10px;
+    height: 35px;
+    border: 1px solid #adabab;
+    border-radius: 4px;
+    transition: box-shadow 0.2s ease-in-out;
+    outline: none;
+}
+
+.search input:hover, .select-category select:hover, .select-from-date input:hover, .select-to-date input:hover, .find-search:hover, .weight-search input:hover {
+    box-shadow: 0 0 10px rgba(110, 108, 108, 0.559);
+}
+.search input:focus, .select-category select:focus,.select-from-date input:focus,.select-to-date input:focus, .find-search:focus, .weight-search input:focus{
+    box-shadow: none;
+    border: 2px solid blue;
+}
+
+.search #searchIcon {
+    color: rgb(193, 188, 188);
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    font-size: 14px;
+}
+
+.find-search{
+    padding: 0px 15px 0px 15px;
+    height: 35px;
+    border: 1px solid #adabab;
+    background-color: rgb(86, 244, 175);
+    outline:none;
+    transition: box-shadow 0.2s ease-in-out;
+    border-radius: 4px;
+}

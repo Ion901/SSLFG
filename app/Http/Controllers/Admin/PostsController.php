@@ -12,24 +12,39 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Filters\PostFilter;
+
 
 class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->validate([
+            'post_title' => 'nullable|string|max:255',
+            'category' => 'nullable|int|exists:category,id',
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date|after_or_equal:date_from',
+        ]);
+
+
+        $filter = app()->make(PostFilter::class,['queryParams' => array_filter($data)]);
+
         // DB::enableQueryLog();
-        $posts = Posts::paginate(10);
+        $posts = Posts::filter($filter)->paginate(10);
+        // dd($posts);
+        $category = Category::all();
 
         $posts->each(function ($post) {
             $post->category = $post->category()->where('id', $post->id_category)->value('type');
         });
 
+
         // dd(DB::getQueryLog($posts));
         // dd($posts);
-        return view('admin.posts.index', ['posts' => $posts]);
+        return view('admin.posts.index', ['posts' => $posts,'category'=>$category]);
     }
 
     /**
@@ -222,82 +237,82 @@ class PostsController extends Controller
             if ($request->filled('competition_name')) {
                 $competition = $post->competition; // Get the related competition
 
-                // Ensure $competition is not null before accessing its properties
-                if ($competition && strtolower($competition->name) !== strtolower($request->competition_name)) {
                     $existingCompetition = Competitions::where('name', $request->competition_name)
                         ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                        ->where('date', $request->competition_date)
+                        ->whereDate('date', $request->competition_date)
                         ->exists(); // Directly check if such a competition exists
 
-                    if ($existingCompetition) {
-                        return redirect()->back()->with('error', 'A competition with the same name and date already exists!');
-                    }
-                }
+                    $existingCompetitionLocation = Competitions::where('location', $request->competition_location)
+                        ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                        ->whereDate('date', $request->competition_date)
+                        ->exists(); // Directly check if such a competition location exists
 
+                    $existingCompetitionDate = Competitions::whereDate('date', $request->competition_date)
+                        ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                        ->where('name', $request->competition_name)
+                        ->exists(); // Directly check if such a competition date exists
 
                 // Update competition details only if needed
-                if ($competition->name !== $request->competition_name ||
-                    $competition->location !== $request->competition_location ||
-                    date('Y-m-d',strtotime($competition->date)) !== $request->competition_date) {
+                // cand competitia/data/locatia este selectata din baza de date, dar poate este modificata
+                // actualizez intreg randul din tabel competition cand este schimbat ceva, actualizez doar id_competition din posts daca este doar ales din optiuni fara modificarile userului
+                if (($competition->name !== $request->competition_name && !$existingCompetition) ||
+                    ($competition->location !== $request->competition_location && !$existingCompetitionLocation) ||
+                    (date('Y-m-d',strtotime($competition->date)) !== $request->competition_date && !$existingCompetitionDate)) {
 
-                    if(!empty($updates)){
                         $competition->update([
                             'name' => $request->competition_name,
                             'location' => $request->competition_location,
                             'date' => $request->competition_date
                         ]);
+
+                        if(empty($updates)){
+                            return redirect()->back()->with('success','Succesfully updated');
+                        }
                     }else{
-                        $competition->update([
-                            'name' => $request->competition_name,
-                            'location' => $request->competition_location,
-                            'date' => $request->competition_date
-                        ]);
-                        // $request->category !== Category::where('type', $request->category)->value('type') ? $updates['id_category'] = Category::where('type', $request->category)->value('id') : "";
-                        return redirect()->back()->with('success','Succesfully updated');
-                    }
-
+                        $updates['id_competition'] =(int) $request->id_competition_fetched;
                 }
             }
         }else if(request('category') && $request->category === 'SPORT' && is_null($post->id_competition)){//case cand schimbam categoria din non-Sport in Sport si facem modificari
             if ($request->filled('competition_name')) {
                 $competition = Competitions::where('id',$request->id_competition_fetched)->firstOrFail(); // Get the related competition
 
+            $existingCompetition = Competitions::where('name', $request->competition_name)
+                ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                ->where('date', $request->competition_date)
+                ->exists(); // Directly check if such a competition exists
+
+            $existingCompetitionLocation = Competitions::where('location', $request->competition_location)
+                ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                ->where('date', $request->competition_date)
+                ->exists(); // Directly check if such a competition location exists
+
+            $existingCompetitionDate = Competitions::where('date', $request->competition_date)
+                ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                ->where('name', $request->competition_name)
+                ->exists(); // Directly check if such a competition date exists
                 // Ensure $competition is not null before accessing its properties
-                if ($competition && strtolower($competition->name) !== strtolower($request->competition_name)) {
-                    $existingCompetition = Competitions::where('name', $request->competition_name)
-                        ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                        ->where('date', $request->competition_date)
-                        ->exists(); // Directly check if such a competition exists
 
-                    if ($existingCompetition) {
-                        return redirect()->back()->with('error', 'A competition with the same name and date already exists!');
-                    }
-                }
-                $updates['id_competition'] =(int) $request->id_competition_fetched;
-                $updates['id_category'] = Category::where('type',$request->category)->value('id');
+                if (($competition->name !== $request->competition_name && !$existingCompetition) ||
+                ($competition->location !== $request->competition_location && !$existingCompetitionLocation) ||
+                (date('Y-m-d',strtotime($competition->date)) !== $request->competition_date && !$existingCompetitionDate)) {
 
-                // Update competition details only if needed
-                if ($competition->name !== $request->competition_name ||
-                    $competition->location !== $request->competition_location ||
-                    date('Y-m-d',strtotime($competition->date)) !== $request->competition_date) {
+                    $competition->update([
+                        'name' => $request->competition_name,
+                        'location' => $request->competition_location,
+                        'date' => $request->competition_date
+                    ]);
 
-                    if(!empty($updates)){
-                        $competition->update([
-                            'name' => $request->competition_name,
-                            'location' => $request->competition_location,
-                            'date' => $request->competition_date
-                        ]);
-                    }else{
-                        $competition->update([
-                            'name' => $request->competition_name,
-                            'location' => $request->competition_location,
-                            'date' => $request->competition_date
-                        ]);
+                    if(empty($updates)){
                         return redirect()->back()->with('success','Succesfully updated');
                     }
-
+                }else{
+                    $updates['id_competition'] =(int) $request->id_competition_fetched;
+                    $updates['id_category'] = Category::where('type',$request->category)->value('id');
                 }
             }
+                // Update competition details only if needed
+
+
         }else if(request('category') && $request->category !== 'SPORT'){ //categorie nu este SPORT
             // $post->id_category = Category::where('type',$request->category)->value('id');
             $updates['id_category'] = Category::where('type',$request->category)->value('id');
@@ -316,9 +331,10 @@ class PostsController extends Controller
 
         // If images exist, process them
         if ($hasImages ) {
-            $lastPostId = $post->id;
-            $lastCompetitionId = $request->id_competition_fetched; // Avoids null error
 
+            $lastPostId = $post->id;
+            $lastCompetitionId = $request->id_competition_fetched ?? $post->competition->id ?? null;
+            
             foreach ($request->file('photo') as $image) {
                 $photo = new PostImages();
                 $extension = $image->getClientOriginalExtension();
