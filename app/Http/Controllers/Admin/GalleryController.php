@@ -49,7 +49,7 @@ class GalleryController extends Controller
                 $photo->saveOrFail();
             }
         }else{
-            return redirect()->back()->with('error', "Nu ati adauagat nici o fotografie");
+            return redirect()->back()->with('error', "Nu ati adaugat nici o fotografie");
         }
 
         return redirect(route('gallery'))->with('message', "Imaginile au fost adaugate cu succes");
@@ -83,29 +83,19 @@ class GalleryController extends Controller
 
         if($request->hasFile('images')){ //pentru a actualiza pozele prezente la moment
             $oldPhotoStoragePath = public_path(Gallery::where('id', $request->imageId)->pluck('gallery_path')?->first());
-            $image = new Gallery();
-            // dd($oldPhotoStoragePath, File::exists($oldPhotoStoragePath));
-            if(File::exists($oldPhotoStoragePath)){
+            $image = Gallery::find($request->imageId);
 
-                $extension = $request->images->getClientOriginalExtension();
-                $photoName = uniqid() . time() . '.' . $extension;
-                $target_dir = public_path('/storage/images/');
+            if($image && File::exists($oldPhotoStoragePath)){
                 File::delete($oldPhotoStoragePath);
-                $request->images->move($target_dir, $photoName);
-
-                $image->where('id',$request->imageId)->update(['gallery_path' => '/storage/images/'.$photoName]);
-
-                return redirect()->back()->with('success','Imaginea a fost actualizata cu succes');
-            }else{//actualizam imaginea fara a o sterge pe cea veche fiindca ea nu exista
-                $extension = $request->images->getClientOriginalExtension();
-                $photoName = uniqid() . time() . '.' . $extension;
-                $target_dir = public_path('/storage/images/');
-                $request->images->move($target_dir, $photoName);
-
-                $image->where('id',$request->imageId)->update(['gallery_path' => '/storage/images/'.$photoName]);
-
-                return redirect()->back()->with('success','Imaginea a fost actualizata cu succes');
             }
+            $extension = $request->images->getClientOriginalExtension();
+            $photoName = uniqid() . time() . '.' . $extension;
+            $target_dir = public_path('/storage/images/');
+            $request->images->move($target_dir, $photoName);
+
+            $image?->update(['gallery_path' => '/storage/images/'.$photoName]);
+
+            return redirect()->back()->with('success','Imaginea a fost actualizata cu succes');
         }else{
             return redirect()->back();
         }
@@ -118,7 +108,7 @@ class GalleryController extends Controller
     {
 
         $image = Gallery::where('id',$id)->firstOrFail();
-        // dd(File::exists(public_path($image->gallery_path)));
+
             if(File::exists(public_path($image->gallery_path))){
                 File::delete(public_path($image->gallery_path));
                 if($image->exists()){

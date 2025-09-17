@@ -3,8 +3,8 @@
 <script src="{{ asset('build/assets/yearpicker.js') }}" async></script>
 @props(['tableName','id','columns','data','filters'=>[], 'actions' => []])
 
-<div class="m-0 m-auto">
-    <form action="{{route("$tableName")}}" method="GET">
+<div class="m-auto">
+    <form action="{{ route($tableName) }}" method="GET">
     <div class="filter-container">
         @foreach ($filters as $key => $filter)
             @if($filter['type'] === "text")
@@ -52,7 +52,7 @@
         @endforeach
     </tr>
     @forelse ($data as $row)
-    {{-- {{dd($row['id'])}} --}}
+    {{-- {{dd($row)}} --}}
         <tr class="border-b-4 border-black mb-2">
             @foreach ($columns as $key => $value )
 

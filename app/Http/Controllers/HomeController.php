@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Premiants;
-use App\Models\Competitions;
 use App\Models\Gallery;
-use App\Models\PostImages;
 use App\Models\Posts;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -19,7 +16,7 @@ class HomeController extends Controller
         // ultimii atleti care au participat la o competitie care are 100% o postare dedicata ei
         $posts->each(function($post){
             $post->images = $post->image()->where('id_post',$post->id)->first(['image_path'])?->image_path;
-            $post->competition = $post->competition()->first(['id'])?->id;
+            // $post->competition = $post->competition()->first(['id'])?->id;
         });
 
         $latestCompetitionId = Premiants::join('posts', 'premiants.id_competition', '=', 'posts.id_competition')
@@ -43,10 +40,11 @@ class HomeController extends Controller
     {
         $posts = Posts::paginate(10);
 
-        $posts->each(function($post){
+        foreach($posts as $post){
             $post->images = $post->image()->where('id_post',$post->id)->first(['image_path'])?->image_path;
             $post->competition = $post->competition()->first(['id'])?->id;
-        });
+        }
+
         return view('pages.noutati',['posts'=>$posts]);
     }
     public function gallery()
@@ -72,7 +70,7 @@ class HomeController extends Controller
         $posts->each(function($post){
             $post->image = $post->image()->where('id_post',$post->id)->whereNotNull('image_path')->first(['image_path'])?->image_path;
         });
-        // dd($posts);  
+        // dd($posts);
 
         // return response()->json($posts);
 
@@ -80,7 +78,7 @@ class HomeController extends Controller
         $post->images = $post->image()->where('id_post',$post->id)->pluck('image_path');
         // dd($post->images);
         if($post->id_category === 1){
-            $post->competition = $post->competition()->first();
+            $post->competitionDetails = $post->competition()->first();
             $post->athlets = Premiants::where('id_competition',$post->competition->id)->get();
         }
 

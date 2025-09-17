@@ -10,9 +10,7 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Models\Athlets;
-use App\Models\Posts;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 
@@ -58,11 +56,11 @@ Route::resource('gallery', GalleryController::class)
 Route::controller(AthletsController::class)->middleware('auth')->group(function () {
     Route::get('/athlets', 'index')->name('athlets');
     Route::get('/athlets/create', 'create')->name('athlets.create');
-    Route::get('/athlets/{id}/edit', 'edit')->name('athlets.edit');
-    Route::get('/athlets/{id}/show', 'edit')->name('athlets.show');
-    Route::patch('/athlets/{id}', 'update')->name('athlets.update');
+    Route::get('/athlets/{athlet}/edit', 'edit')->name('athlets.edit');
+    Route::get('/athlets/{athlet}/show', 'edit')->name('athlets.show');
+    Route::patch('/athlets/{athlet}', 'update')->name('athlets.update');
     Route::post('athlets/store','store')->name('athlets.store');
-    Route::delete('/athlets/destroy/{id}', 'destroy')->name('athlets.destroy');
+    Route::delete('/athlets/destroy/{athlet}', 'destroy')->name('athlets.destroy');
 });
 
 

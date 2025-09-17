@@ -25,12 +25,11 @@ class AthletsController extends Controller
     {
         return view('admin.sportivi.create');
     }
-    public function edit(string $id)
+    public function edit(Athlets $athlet)
     {
-        $athlet = Athlets::findOrFail($id);
         return view('admin.sportivi.edit', compact('athlet'));
     }
-    public function update(Request $request, string $id)
+    public function update(Request $request, Athlets $athlet)
     {
         $request->validate([
             'athlet_fullName'  => 'required|string',
@@ -42,11 +41,11 @@ class AthletsController extends Controller
 
         $athlets = Athlets::all();
         if(!$athlets->where('fullName',$request['athlet_fullName'])->where('age',$request['athlet_birthdate'])->isNotEmpty()){
-            $newAthlets = Athlets::where('id',$id)->firstOrFail();
-            $newAthlets->fullName = $request['athlet_fullName'];
-            $newAthlets->age = $request['athlet_birthdate'];
-            // $newAthlets->updateOrFail(['fullName' => $request['athlet_fullName'], 'age' => $request['athlet_birthdate']]);
-            $newAthlets->updateOrFail();
+            // $athlet = Athlets::where('id',$id)->firstOrFail();
+            $athlet->fullName = $request['athlet_fullName'];
+            $athlet->age = $request['athlet_birthdate'];
+            // $athlet->updateOrFail(['fullName' => $request['athlet_fullName'], 'age' => $request['athlet_birthdate']]);
+            $athlet->updateOrFail();
         }else{
             return redirect()->back()->with('error', 'Sportivul '.$request['athlet_fullName'].' cu anul nasterii: '.$request['athlet_birthdate'].' a fost deja adaugat');
         }
@@ -54,8 +53,8 @@ class AthletsController extends Controller
 
     }
 
-    public function destroy(Request $request, string $id){
-        $athlet = Athlets::where('id',$id)->firstOrFail();
+    public function destroy(Request $request, Athlets $athlet){
+        // $athlet = Athlets::where('id',$id)->firstOrFail();
         if($athlet){
             $athlet->deleteOrFail();
                 return redirect()->back()->with('success', 'Datele au fost actualizate cu succes');

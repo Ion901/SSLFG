@@ -58,7 +58,7 @@
                 <option value=""></option>
                 @foreach ($categoryes as $category)
                 <option value="{{ $category->type }}"
-                    {{ $post->category ===  $category->type ? 'selected' : '' }}>
+                    {{ $post->categoryType ===  $category->type ? 'selected' : '' }}>
                     {{ $category->type }}
                 </option>
             @endforeach
@@ -69,10 +69,10 @@
             <p class="text-blue-700 cursor-pointer hover:text-blue-900 underline ">Adaugă detaliile competiției</p>
         </div>
 
-        @if ($post->category === "SPORT")
-        <div class="mb-4 transition-[scale] duration-500 ease-in-out border border-2 m-7 p-7" id="modal">
+        @if ($post->categoryType === "SPORT")
+        <div class="mb-4 transition-[scale] duration-500 ease-in-out  border-2 m-7 p-7" id="modal">
             @else
-        <div class="mb-4 hidden transition-[scale] duration-500 ease-in-out border border-2 m-7 p-7" id="modal">
+        <div class="mb-4 hidden transition-[scale] duration-500 ease-in-out  border-2 m-7 p-7" id="modal">
             @endif
             <div class="competition">
                 <input type="hidden" name="id_competition_fetched" id="id_competition_fetched">
@@ -83,13 +83,13 @@
                     <option value=""></option>
                     @foreach ($competitions as $competition)
                     <option value="{{ $competition->name }}"
-                        {{ $post->category === "SPORT" && $post->competition->name == $competition->name ? 'selected' : '' }}>
+                        {{ $post->categoryType === "SPORT" && $post->competitionDetails->name == $competition->name ? 'selected' : '' }}>
                         {{ $competition->name }}
                     </option>
                 @endforeach
                 </select>
                 <input type="text" id="competition_input"
-                value="{{ $post->competition->name ?? '' }}" name="competition_name"
+                value="{{ $post->competitionDetails->name ?? '' }}" name="competition_name"
                 onchange="document.getElementById('competition_name').value = this.value"
                  />
                 </div></div>
@@ -102,13 +102,13 @@
                 <option value=""></option>
                 @foreach ($competitions as $competition)
                 <option value="{{ $competition->location }}"
-                    {{ $post->category === "SPORT" && $post->competition->location == $competition->location ? 'selected' : '' }}>
+                    {{ $post->categoryType === "SPORT" && $post->competitionDetails->location == $competition->location ? 'selected' : '' }}>
                     {{ $competition->location }}
                 </option>
             @endforeach
             </select>
             <input type="text" id="competition_location_input"
-            value="{{ $post->competition->location ?? '' }}" name="competition_location"
+            value="{{ $post->competitionDetails->location ?? '' }}" name="competition_location"
             onchange="document.getElementById('competition_location').value = this.value"
             onselect="document.getElementById('competition_location').value = this.value"/>
             </div></div>
@@ -118,8 +118,8 @@
                 competitiei</label>
             <input type="date" id="competition_date" name="competition_date"
                 class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-                value="{{ $post->category === 'SPORT' && $post->competition ? $post->competition->formatted_date : '' }}">
-                {{-- {{dd($post->competition->date)}} --}}
+                value="{{ $post->categoryType === 'SPORT' && $post->competitionDetails ? $post->competitionDetails->formatted_date : '' }}">
+                {{-- {{dd($post->competitionDetails->date)}} --}}
         </div>
 
 

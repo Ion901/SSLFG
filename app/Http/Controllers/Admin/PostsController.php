@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Models\Competitions;
 use App\Models\PostImages;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Filters\PostFilter;
@@ -29,22 +28,10 @@ class PostsController extends Controller
             'to_date' => 'nullable|date|after_or_equal:date_from',
         ]);
 
-
-        $filter = app()->make(PostFilter::class,['queryParams' => array_filter($data)]);
-
-        // DB::enableQueryLog();
-        $posts = Posts::filter($filter)->paginate(10);
-        // dd($posts);
+        $filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
+        $posts = Posts::with('category')->filter($filter)->paginate(10);
         $category = Category::all();
-
-        $posts->each(function ($post) {
-            $post->category = $post->category()->where('id', $post->id_category)->value('type');
-        });
-
-
-        // dd(DB::getQueryLog($posts));
-        // dd($posts);
-        return view('admin.posts.index', ['posts' => $posts,'category'=>$category]);
+        return view('admin.posts.index', ['posts' => $posts, 'category' => $category]);
     }
 
     /**
@@ -54,6 +41,23 @@ class PostsController extends Controller
     {
         $categoryes = Category::all();
         return view('admin.posts.create', compact('categoryes'));
+    }
+
+    private function uploadImages($images, $postId, $competitionId = null)
+    {
+        // dd($competitionId);
+        foreach ($images as $image) {
+            $photo = new PostImages();
+            $extension = $image->getClientOriginalExtension();
+            $photoName = uniqid() . time() . '.' . $extension;
+            $target_dir = public_path('/storage/images/post/');
+            $image->move($target_dir, $photoName);
+
+            $photo->image_path = '/storage/images/post/' . $photoName;
+            $photo->id_post = $postId;
+            $photo->id_competition = $competitionId;
+            $photo->saveOrFail();
+        }
     }
 
     /**
@@ -101,21 +105,9 @@ class PostsController extends Controller
             $post->saveOrFail();
 
             if ($request->hasFile('photo')) {
-
-                $lastPostId = $post->orderBy('id', 'desc')->first()?->id;
-                $lastCompetitionId = $competition->orderBy('id', 'desc')->first()?->id;
-                foreach ($input['photo'] as $image) {
-                    $photo = new PostImages();
-                    $extension = $image->getClientOriginalExtension();
-                    $photoName = uniqid() . time() . '.' . $extension;
-                    $target_dir = public_path('/storage/images/post/');
-                    $image->move($target_dir, $photoName);
-
-                    $photo->image_path = '/storage/images/post/' . $photoName;
-                    $photo->id_post = $lastPostId;
-                    $photo->id_competition = $lastCompetitionId;
-                    $photo->saveOrFail();
-                }
+                $lastPostId = $post->id;
+                $lastCompetitionId = $competition->id;
+                $this->uploadImages($input['photo'], $lastPostId, $lastCompetitionId ?? null);
             }
 
             return redirect(route('posts'))->with('message', "The post has been succesfully created");
@@ -129,53 +121,39 @@ class PostsController extends Controller
 
             $post->saveOrFail();
 
-            $lastPostId = $post->orderBy('id', 'desc')->first()?->id;
-            $lastCompetitionId = $competition->orderBy('id', 'desc')->first()?->id;
             if ($request->hasFile('photo')) {
-            foreach ($input['photo'] as $image) {
-                $photo = new PostImages();
-                $extension = $image->getClientOriginalExtension();
-                $photoName = uniqid() . time() . '.' . $extension;
-                $target_dir = public_path('/storage/images/post/');
-                $image->move($target_dir, $photoName);
-
-                $photo->image_path = '/storage/images/post/' . $photoName;
-                $photo->id_post = $lastPostId;
-                $photo->id_competition = $lastCompetitionId;
-                $photo->saveOrFail();
+                $lastPostId = $post->id;
+                $lastCompetitionId = $competition->id;
+                $this->uploadImages($input['photo'], $lastPostId, $lastCompetitionId ?? null);
             }
-        }
-        return redirect(route('posts'))->with('message', "The post has been succesfully created");
+            return redirect(route('posts'))->with('message', "The post has been succesfully created");
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
+    public function show(Posts $post)
     {
-        $post = Posts::where('post_slug', $slug)->firstOrFail();
-        $post->images = $post->image()->where('id_post', $post->id)->pluck('image_path');
-        // dd($post->images);
+        $post->images = $post->image->pluck('image_path');
+
         if ($post->id_category === 1) {
-            $post->competition = $post->competition()->first();
-            $post->athlets = Premiants::where('id_competition', $post->competition->id)->get();
+            $post->athlets =  $post->competition->athlet;
         };
+
         return view('admin.posts.view', ['post' => $post]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $slug)
+    public function edit(Posts $post)
     {
-        $post = Posts::where('post_slug', $slug)->firstOrFail();
-        $post->images = $post->image()->where('id_post', $post->id)->get();
-        $post->category = Category::where('id', $post->id_category)->value('type');
+        $post->images = $post->image;
+        $post->categoryType = $post->category->type;
 
         if ($post->id_category === 1) {
-            $post->competition = $post->competition()->first();
-            // $post->athlets = Premiants::where('id_competition',$post->competition->id)->get();
+            $post->competitionDetails = $post->competition()->first();
         };
         // dd($post->images);
 
@@ -188,9 +166,9 @@ class PostsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $slug)
+    public function update(Request $request, Posts $post)
     {
-        // dd($request);
+
         $updates = [];
         $rules = [
             'category' => 'string',
@@ -209,92 +187,58 @@ class PostsController extends Controller
 
         $request->validate($rules);
 
-        $post = Posts::where('post_slug', $slug)->firstOrFail();
-        $competition = Competitions::where('id',$post->id_competition);
+        $competition = $post->competition;
 
         if (request('title')) {
 
-            if (strtolower($post->post_title) != strtolower($request->title) && //titlu este schimbat
-                Posts::where('post_title',$request->title)->where('id', '!=', $post->id)->exists()){ //titlu este acelasi cu alt titlu din tabel){
+            if (
+                strtolower($post->post_title) != strtolower($request->title) && //titlu este schimbat
+                Posts::where('post_title', $request->title)->where('id', '!=', $post->id)->exists()
+            ) { //titlu este acelasi cu alt titlu din tabel){
                 return redirect()->back()->with('error', 'This title already exists.');
-            }else if($post->post_title !== $request->title){
+            } else if ($post->post_title !== $request->title) {
                 $updates['post_title'] = $request->title;
                 $updates['post_slug'] = Str::slug($request->title);
             }
         }
 
         if (request('content')) {
-            if (strtolower($post->post_content) != strtolower($request->content) && //contentul este schimbat
-                Posts::where('post_content',$request->content)->where('id', '!=', $post->id)->exists()){ //contentul este acelasi cu alt content din tabel){
+            if (
+                strtolower($post->post_content) != strtolower($request->content) && //contentul este schimbat
+                Posts::where('post_content', $request->content)->where('id', '!=', $post->id)->exists()
+            ) { //contentul este acelasi cu alt content din tabel){
                 return redirect()->back()->with('error', 'This post content already exists.');
-            }elseif($post->post_content !== $request->content){
+            } elseif ($post->post_content !== $request->content) {
                 $updates['post_content'] = $request->content;
             }
         }
-        // dd(!is_null($post->id_competition));
+
         if (request('category') && $request->category === 'SPORT' && !is_null($post->id_competition)) { //este aleasa categoria, este Sport si este o postare sportive initial
 
             if ($request->filled('competition_name')) {
-                $competition = $post->competition; // Get the related competition
 
-                    $existingCompetition = Competitions::where('name', $request->competition_name)
-                        ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                        ->whereDate('date', $request->competition_date)
-                        ->exists(); // Directly check if such a competition exists
+                $existingCompetition = Competitions::where('name', $request->competition_name)
+                    ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                    ->whereDate('date', $request->competition_date)
+                    ->exists(); // Directly check if such a competition exists
 
-                    $existingCompetitionLocation = Competitions::where('location', $request->competition_location)
-                        ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                        ->whereDate('date', $request->competition_date)
-                        ->exists(); // Directly check if such a competition location exists
+                $existingCompetitionLocation = Competitions::where('location', $request->competition_location)
+                    ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                    ->whereDate('date', $request->competition_date)
+                    ->exists(); // Directly check if such a competition location exists
 
-                    $existingCompetitionDate = Competitions::whereDate('date', $request->competition_date)
-                        ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                        ->where('name', $request->competition_name)
-                        ->exists(); // Directly check if such a competition date exists
+                $existingCompetitionDate = Competitions::whereDate('date', $request->competition_date)
+                    ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                    ->where('name', $request->competition_name)
+                    ->exists(); // Directly check if such a competition date exists
 
                 // Update competition details only if needed
                 // cand competitia/data/locatia este selectata din baza de date, dar poate este modificata
                 // actualizez intreg randul din tabel competition cand este schimbat ceva, actualizez doar id_competition din posts daca este doar ales din optiuni fara modificarile userului
                 if (($competition->name !== $request->competition_name && !$existingCompetition) ||
                     ($competition->location !== $request->competition_location && !$existingCompetitionLocation) ||
-                    (date('Y-m-d',strtotime($competition->date)) !== $request->competition_date && !$existingCompetitionDate)) {
-
-                        $competition->update([
-                            'name' => $request->competition_name,
-                            'location' => $request->competition_location,
-                            'date' => $request->competition_date
-                        ]);
-
-                        if(empty($updates)){
-                            return redirect()->back()->with('success','Succesfully updated');
-                        }
-                    }else{
-                        $updates['id_competition'] =(int) $request->id_competition_fetched;
-                }
-            }
-        }else if(request('category') && $request->category === 'SPORT' && is_null($post->id_competition)){//case cand schimbam categoria din non-Sport in Sport si facem modificari
-            if ($request->filled('competition_name')) {
-                $competition = Competitions::where('id',$request->id_competition_fetched)->firstOrFail(); // Get the related competition
-
-            $existingCompetition = Competitions::where('name', $request->competition_name)
-                ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                ->where('date', $request->competition_date)
-                ->exists(); // Directly check if such a competition exists
-
-            $existingCompetitionLocation = Competitions::where('location', $request->competition_location)
-                ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                ->where('date', $request->competition_date)
-                ->exists(); // Directly check if such a competition location exists
-
-            $existingCompetitionDate = Competitions::where('date', $request->competition_date)
-                ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
-                ->where('name', $request->competition_name)
-                ->exists(); // Directly check if such a competition date exists
-                // Ensure $competition is not null before accessing its properties
-
-                if (($competition->name !== $request->competition_name && !$existingCompetition) ||
-                ($competition->location !== $request->competition_location && !$existingCompetitionLocation) ||
-                (date('Y-m-d',strtotime($competition->date)) !== $request->competition_date && !$existingCompetitionDate)) {
+                    (date('Y-m-d', strtotime($competition->date)) !== $request->competition_date && !$existingCompetitionDate)
+                ) {
 
                     $competition->update([
                         'name' => $request->competition_name,
@@ -302,51 +246,81 @@ class PostsController extends Controller
                         'date' => $request->competition_date
                     ]);
 
-                    if(empty($updates)){
-                        return redirect()->back()->with('success','Succesfully updated');
+                    if (empty($updates)) {
+                        return redirect()->back()->with('success', 'Succesfully updated');
                     }
-                }else{
-                    $updates['id_competition'] =(int) $request->id_competition_fetched;
-                    $updates['id_category'] = Category::where('type',$request->category)->value('id');
+                } elseif($request->id_competition_fetched) {
+                    $updates['id_competition'] = (int) $request->id_competition_fetched;
                 }
             }
-                // Update competition details only if needed
+        } else if (request('category') && $request->category === 'SPORT' && is_null($post->id_competition)) { //case cand schimbam categoria din non-Sport in Sport si facem modificari
+            if ($request->filled('competition_name')) {
+                $competition = Competitions::where('id', $request->id_competition_fetched)->firstOrFail(); // Get the related competition
 
+                $existingCompetition = Competitions::where('name', $request->competition_name)
+                    ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                    ->where('date', $request->competition_date)
+                    ->exists(); // Directly check if such a competition exists
 
-        }else if(request('category') && $request->category !== 'SPORT'){ //categorie nu este SPORT
-            // $post->id_category = Category::where('type',$request->category)->value('id');
-            $updates['id_category'] = Category::where('type',$request->category)->value('id');
+                $existingCompetitionLocation = Competitions::where('location', $request->competition_location)
+                    ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                    ->where('date', $request->competition_date)
+                    ->exists(); // Directly check if such a competition location exists
+
+                $existingCompetitionDate = Competitions::where('date', $request->competition_date)
+                    ->where('id', '!=', optional($competition)->id) // Prevents errors if $competition is null
+                    ->where('name', $request->competition_name)
+                    ->exists(); // Directly check if such a competition date exists
+                // Ensure $competition is not null before accessing its properties
+
+                if (($competition->name !== $request->competition_name && !$existingCompetition) ||
+                    ($competition->location !== $request->competition_location && !$existingCompetitionLocation) ||
+                    (date('Y-m-d', strtotime($competition->date)) !== $request->competition_date && !$existingCompetitionDate)
+                ) {
+
+                    $competition->update([
+                        'name' => $request->competition_name,
+                        'location' => $request->competition_location,
+                        'date' => $request->competition_date
+                    ]);
+
+                    if (empty($updates)) {
+                        return redirect()->back()->with('success', 'Succesfully updated');
+                    }
+                } else {
+                    $updates['id_competition'] = (int) $request->id_competition_fetched;
+                    $updates['id_category'] = Category::where('type', $request->category)->value('id');
+                }
+            }
+        } else if (request('category') && $request->category !== 'SPORT') { //categorie nu este SPORT
+            $updates['id_category'] = Category::where('type', $request->category)->value('id');
             $updates['id_competition'] = null;
-
         }
 
         $hasUpdates = !empty($updates);
         $hasImages = $request->hasFile('photo');
+
+        //daca in postare avem imagini, actualizam si id_competition din tabelul[post_images]
+        if($post->image){
+            $post->image->each(function ($image) use ($updates) {
+                $image->update([
+                    'id_competition' => $updates['id_competition']
+                ]);
+            });
+        };
 
         // If only updates exist, update the post
         if ($hasUpdates && !$hasImages) {
             $post->update($updates);
             return redirect()->back()->with('success', 'Updated successfully');
         }
-
         // If images exist, process them
-        if ($hasImages ) {
+        if ($hasImages) {
 
             $lastPostId = $post->id;
             $lastCompetitionId = $request->id_competition_fetched ?? $post->competition->id ?? null;
-            
-            foreach ($request->file('photo') as $image) {
-                $photo = new PostImages();
-                $extension = $image->getClientOriginalExtension();
-                $photoName = uniqid() . time() . '.' . $extension;
-                $target_dir = public_path('/storage/images/post/');
-                $image->move($target_dir, $photoName);
-
-                $photo->image_path = '/storage/images/post/' . $photoName;
-                $photo->id_post = $lastPostId;
-                $photo->id_competition = $lastCompetitionId;
-                $photo->save();
-            }
+            dd($lastCompetitionId);
+            $this->uploadImages($request->file('photo'), $lastPostId, $lastCompetitionId);
 
             // If updates also exist, update the post
             if ($hasUpdates) {
@@ -354,62 +328,50 @@ class PostsController extends Controller
                 return redirect()->back()->with('success', 'The images and the record details were updated');
             }
 
-            return redirect()->back()->with('success', 'The images were uploaded successfully');
+            return redirect()->back()->with('success','The image was added succesfully');
         }
 
 
-        if($request->hasFile('images')){ //pentru a actualiza pozele prezente la moment
+        if ($request->hasFile('images')) { //pentru a actualiza pozele prezente la moment
             $oldPhotoStoragePath = public_path($post->image()->where('id', $request->imageId)->pluck('image_path')?->first());
-            // dd($oldPhotoStoragePath);
-            $image = new PostImages();
-            if(File::exists($oldPhotoStoragePath)){
+            $oldImage = PostImages::find($request->imageId);
 
-                $extension = $request->images->getClientOriginalExtension();
-                $photoName = uniqid() . time() . '.' . $extension;
-                $target_dir = public_path('/storage/images/post/');
+            if ($oldImage && File::exists($oldPhotoStoragePath)) {
                 File::delete($oldPhotoStoragePath);
-                $request->images->move($target_dir, $photoName);
-
-                $image->where('id',$request->imageId)->update(['image_path' => '/storage/images/post/'.$photoName]);
-
-                return redirect()->back()->with('success','The image was succesfully updated');
-            }else{//actualizam imaginea fara a o sterge pe cea veche fiindca ea nu exista
-                $extension = $request->images->getClientOriginalExtension();
-                $photoName = uniqid() . time() . '.' . $extension;
-                $target_dir = public_path('/storage/images/post/');
-                $request->images->move($target_dir, $photoName);
-
-                $image->where('id',$request->imageId)->update(['image_path' => '/storage/images/post/'.$photoName]);
-
-                return redirect()->back()->with('success','The image was succesfully updated');
             }
+            $extension = $request->images->getClientOriginalExtension();
+            $photoName = uniqid() . time() . '.' . $extension;
+            $target_dir = public_path('/storage/images/post/');
+            $request->images->move($target_dir, $photoName);
+
+            $oldImage?->update(['image_path' => '/storage/images/post/' . $photoName]);
+
+            return redirect()->back()->with('success', 'The image was succesfully updated');
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $slug, Request $request)
+    public function destroy(Posts $post, Request $request)
     {
-        $post = Posts::where('post_slug', $slug)->firstOrFail();
         $postImage = $request->imageId;
-        if($post && !$postImage){
+        if ($post && !$postImage) {
             $post->delete();
 
-            return redirect()->back()->with('success','The post was succesfully deleted');
-        }else{
-            $image = $post->image()->where('id',$postImage)->firstOrFail();
+            return redirect()->back()->with('success', 'The post was succesfully deleted');
+        } else {
+            $image = $post->image()->where('id', $postImage)->firstOrFail();
 
-            if(File::exists(public_path($image->image_path))){
+            if (File::exists(public_path($image->image_path))) {
                 File::delete(public_path($image->image_path));
-                if($image->exists()){
+                if ($image->exists()) {
                     $image->delete();
                 }
-                return redirect()->back()->with('success','The image was succesfully deleted');
-            }else{
-                return redirect()->back()->with('error','Something is wrong');
+                return redirect()->back()->with('success', 'The image was succesfully deleted');
+            } else {
+                return redirect()->back()->with('error', 'Something is wrong');
             }
         }
-
     }
 }
