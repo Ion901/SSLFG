@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Posts;
-use App\Models\Premiants;
 use App\Models\Category;
 use App\Models\Competitions;
 use App\Models\PostImages;
@@ -319,7 +318,6 @@ class PostsController extends Controller
 
             $lastPostId = $post->id;
             $lastCompetitionId = $request->id_competition_fetched ?? $post->competition->id ?? null;
-            dd($lastCompetitionId);
             $this->uploadImages($request->file('photo'), $lastPostId, $lastCompetitionId);
 
             // If updates also exist, update the post

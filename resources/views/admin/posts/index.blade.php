@@ -5,7 +5,7 @@
         <x-crud-button :href="route('posts.create')" :add="true">
             Adauga o postare
         </x-crud-button>
-        <h1 class="justify-content-sm-center text-center text-3xl m-0 m-auto">Postari</h1>
+        <h1 class="justify-content-sm-center text-center text-3xl m-0">Postari</h1>
     </div>
 
     <x-table-filter

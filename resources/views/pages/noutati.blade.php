@@ -81,9 +81,9 @@
     @if (request()->path() == 'noutati')
         <section class="left-section">
             @foreach ($posts as $post)
-                @if ($post->images)
+                @if ($post->image)
                 <article>
-                            <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
+                            <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
                             <div class="up-part">
                                 <h3>{{ $post->post_title }}</h3>
                             </div>
@@ -91,7 +91,7 @@
                             <hr>
                             <div class="bottom-part">
                                 <div class="article-image">
-                                    <img src="{{ asset($post->images) }}" alt="no image">
+                                    <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
                                 </div>
                                 <div class="article-caption">
                                     {!! Str::limit($post->post_content, 200) !!}
@@ -122,7 +122,7 @@
                         </p>
                     </div>
                     <div class="image">
-                        <img src="{{ asset($post->images[0]) }}" alt="no image">
+                        <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
                     </div>
 
                     <div class="content">
@@ -139,9 +139,9 @@
                                 </div>
                                 @endif
                                 <div class="images-post">
-                                    @foreach ($post->images as $index => $image)
+                                    @foreach ($post->image as $index => $image)
                                     <div class="images-slider">
-                                        <img loading="lazy" class="myImg" data-index="{{ $index }}" src="{{ asset($image) }}" alt="error">
+                                        <img loading="lazy" class="myImg" data-index="{{ $index }}" src="{{ asset($image->image_path) }}" alt="error">
                                     </div>
                                     @endforeach
                                 </div>
@@ -163,9 +163,9 @@
                         <div class="articles">
                             @foreach ($posts as $post)
                             {{-- @if($post->image) --}}
-                            <a id="slug" href="{{route('NewsPost', ['slug' => $post->post_slug])}}">
+                            <a id="slug" href="{{route('NewsPost', ['post' => $post->post_slug])}}">
                             <article id="article" class="mb-[1rem]" >
-                                <div class="img-ctn"><img src="{{$post->image}}" alt="no image"></div>
+                                <div class="img-ctn"><img src="{{$post->image[0]->image_path}}" alt="no image"></div>
                                 <div class="post_title"><h3>{{$post->post_title}}</h3></div>
                                 <div class="point-read"><i class="fa-solid fa-square-up-right"></i></div>
                             </article>

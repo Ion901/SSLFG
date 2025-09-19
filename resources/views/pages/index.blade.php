@@ -16,18 +16,18 @@
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 @foreach ($posts as $post)
-                    @if ($post->images)
+                    @if ($post->image)
                         <div class="swiper-slide">
                             <div class="slide-ctn">
                                 <div class="overlay-filter">
                                     <div class="info-ctn">
                                         <h2>{{ $post->post_title }}</h2>
-                                        <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
+                                        <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
                                             <button>Citeste Acum</button>
                                         </a>
                                     </div>
                                     <div class="image-wrapper">
-                                        <img src="{{ asset($post->images) }}" alt="Banner">
+                                        <img src="{{ asset($post->image[0]->image_path) }}" alt="Banner">
                                         <div class="gradient-overlay"></div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                     <div class="date gap-4 mt-4">
                                         <i class="fa-regular fa-clock"></i>
                                         <p class="mb-0">{{Str::replaceMatches('/:\d+\z/','',$athlet->competition->date)}}</p>
-                                        <a href="{{ route('NewsPost', ['slug' => $athlet->postCompetition]) }}">
+                                        <a href="{{ route('NewsPost', ['post' => $athlet->postCompetition]) }}">
                                             <button><i class="fa-solid fa-arrow-right-long"></i></button>
                                         </a>
                                     </div>
@@ -110,16 +110,17 @@
             <div class="container-subsection">
             <section class="left-section ">
                 @foreach ($posts as $post)
-                    @if ($post->images)
+                    @if ($post->image)
                     <article>
-                        <a href="{{ route('NewsPost', ['slug' => $post->post_slug]) }}">
+                        <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
                                 <div class="up-part">
                                     <h3>{{ $post->post_title }}</h3>
                                 </div>
                                 <hr>
                                 <div class="bottom-part">
                                     <div class="article-image">
-                                        <img src="{{ asset($post->images) }}" alt="no image">
+                                        {{-- {{ dd($post->image[0]->image_path) }} --}}
+                                        <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
                                     </div>
                                     <div class="article-caption">
                                         {!! Str::limit($post->post_content, 200) !!}

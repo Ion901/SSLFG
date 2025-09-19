@@ -459,6 +459,7 @@ p {
 }
 
 .article-image {
+    width: 100%;
     display: inline-block;
     overflow: hidden;
 }

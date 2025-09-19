@@ -29,7 +29,7 @@ class PremiantsController extends Controller
         $filter = app()->make(PremiantsFilter::class, ['queryParams' => array_filter($data)]);
 
 
-        $athletes = Premiants::with('athlet')->filter($filter)->paginate(12)->through(function($athlet){
+        $athletes = Premiants::with('athlet','competition')->filter($filter)->paginate(12)->through(function($athlet){
             return [
             'id'=> $athlet->id,
             'fullName' => $athlet->fullName(),
