@@ -44,7 +44,6 @@ class PostsController extends Controller
 
     private function uploadImages($images, $postId, $competitionId = null)
     {
-        // dd($competitionId);
         foreach ($images as $image) {
             $photo = new PostImages();
             $extension = $image->getClientOriginalExtension();

@@ -52,7 +52,7 @@
         @endforeach
     </tr>
     @forelse ($data as $row)
-    {{-- {{dd($row)}} --}}
+
         <tr class="border-b-4 border-black mb-2">
             @foreach ($columns as $key => $value )
 
@@ -61,7 +61,7 @@
                 @elseif($value === 'Date')
                     <td class="pr-3">{{ Str::replaceMatches('/\s\d.*/', '', $row[$key]) }}</td>
                 @else
-                    <td class="pr-3">{{ $row[$key] }}</td>
+                    <td class="pr-3">{{ $key == "category" ? $row[$key]['type'] : $row[$key] }}</td>
                 @endif
             @endforeach
             <td class="select-none">

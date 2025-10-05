@@ -397,7 +397,7 @@ p {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 1.6rem;
-    /* Adds spacing between grid items */
+
 }
 
 .message-director-container {
@@ -494,12 +494,12 @@ p {
     color: white;
     font-family: 'Public Sans', sans-serif;
     border: none;
-    /* margin-top: 12%; */
 }
 
 .bottom-part button:hover {
     background-color: white;
     color: #2f3487;
+    transition: all 300ms;
 }
 
 
@@ -624,19 +624,25 @@ p {
     .swiper-button-prev {
         top: 37.68rem;
     }
-    #first-button-next, #second-button-next{
-        top:28rem;
+
+    #first-button-next,
+    #second-button-next {
+        top: 28rem;
     }
-    #first-button-next{
-        left:93%;
+
+    #first-button-next {
+        left: 93%;
     }
-    #second-button-next{
+
+    #second-button-next {
         left: 7%;
     }
-    .info-ctn{
-        width:55vw;
+
+    .info-ctn {
+        width: 55vw;
         top: 25rem;
     }
+
     .info-ctn h2 {
         -webkit-line-clamp: 5;
         line-clamp: 5;
@@ -667,19 +673,25 @@ p {
     .swiper-button-prev {
         top: 37.68rem;
     }
-    #first-button-next, #second-button-next{
-        top:35rem;
-    }
-    #first-button-next{
-        left:93%;
-    }
-    #second-button-next{
-        left: 0%;
-    }
-    .info-ctn{
-        width:55vw;
+
+    #first-button-next,
+    #second-button-next {
         top: 35rem;
     }
+
+    #first-button-next {
+        left: 93%;
+    }
+
+    #second-button-next {
+        left: 0%;
+    }
+
+    .info-ctn {
+        width: 55vw;
+        top: 35rem;
+    }
+
     .info-ctn h2 {
         -webkit-line-clamp: 5;
         line-clamp: 5;
@@ -688,6 +700,7 @@ p {
         height: 44.8rem;
         height: auto
     }
+
     .page {
         margin: unset;
     }

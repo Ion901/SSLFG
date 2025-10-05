@@ -6,8 +6,8 @@
 @endsection
 
 @section('stylesheets')
-@parent
-@vite('resources/css/index.css')
+    @parent
+    @vite('resources/css/index.css')
 @endsection
 
 @section('content')
@@ -15,19 +15,19 @@
     <section class="page">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                @foreach ($posts as $post)
-                    @if ($post->image)
+                @foreach ($postsForSlider as $postForSlide)
+                    @if ($postForSlide->image->isNotEmpty())
                         <div class="swiper-slide">
                             <div class="slide-ctn">
                                 <div class="overlay-filter">
                                     <div class="info-ctn">
-                                        <h2>{{ $post->post_title }}</h2>
-                                        <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
+                                        <h2>{{ $postForSlide->post_title }}</h2>
+                                        <a href="{{ route('NewsPost', ['post' => $postForSlide->post_slug]) }}">
                                             <button>Citeste Acum</button>
                                         </a>
                                     </div>
                                     <div class="image-wrapper">
-                                        <img src="{{ asset($post->image[0]->image_path) }}" alt="Banner">
+                                        <img src="{{ asset($postForSlide->image[0]->image_path) }}" alt="Banner">
                                         <div class="gradient-overlay"></div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="card-content">
-                                    <h1>{{$athlet->athlet->fullName }}</h1>
+                                    <h1>{{ $athlet->athlet->fullName }}</h1>
                                     <div class="wrestler-details">
                                         <div class="date gap-4 mb-2">
                                             <i class="fa-solid fa-medal"></i>
@@ -80,7 +80,8 @@
                                     </div>
                                     <div class="date gap-4 mt-4">
                                         <i class="fa-regular fa-clock"></i>
-                                        <p class="mb-0">{{Str::replaceMatches('/:\d+\z/','',$athlet->competition->date)}}</p>
+                                        <p class="mb-0">
+                                            {{ Str::replaceMatches('/:\d+\z/', '', $athlet->competition->date) }}</p>
                                         <a href="{{ route('NewsPost', ['post' => $athlet->postCompetition]) }}">
                                             <button><i class="fa-solid fa-arrow-right-long"></i></button>
                                         </a>
@@ -108,73 +109,85 @@
         <div class="container-section">
             <h2>Postari recente</h2>
             <div class="container-subsection">
-            <section class="left-section ">
-                @foreach ($posts as $post)
-                    @if ($post->image)
-                    <article>
-                        <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
-                                <div class="up-part">
-                                    <h3>{{ $post->post_title }}</h3>
-                                </div>
-                                <hr>
-                                <div class="bottom-part">
-                                    <div class="article-image">
-                                        {{-- {{ dd($post->image[0]->image_path) }} --}}
-                                        <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
+                <section class="left-section ">
+                    @foreach ($posts as $post)
+                        @if ($post->image->isNotEmpty())
+                            <article>
+                                <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
+                                    <div class="up-part">
+                                        <h3>{{ $post->post_title }}</h3>
                                     </div>
-                                    <div class="article-caption">
-                                        {!! Str::limit($post->post_content, 200) !!}
+                                    <hr>
+                                    <div class="bottom-part">
+                                        <div class="article-image">
+                                            <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
+                                        </div>
+                                        <div class="article-caption">
+                                            {!! Str::limit($post->post_content, 200) !!}
 
+                                        </div>
+                                        <button>Citeste mai
+                                            mult</button>
                                     </div>
-                                    <button>Citeste mai
-                                        mult</button>
-                                </div>
-                            </a>
-                        </article>
-                    @endif
-                @endforeach
-            </section>
-            <section class="right-section">
-                <div class="message-director-container">
-                    <h2>Mesajul Directorului Școlii Sportive de lupte Fundul Galbenei</h2>
-                    <span class="horizontal bar">
-                        <hr>
-                    </span>
-                    <div class="message-ctn">
-                        <div class="image-ctn-message">
-                            <img src="{{asset('/storage/images/dmn-Vasile.jpg')}}" alt="no image">
-                        </div>
-                        <div class="message">
-                            <p>Dragi vizitatori,<br>
-                                <br>
-                                Vă salut cu căldură și entuziasm în numele întregii noastre echipe! Școala noastră este un
-                                loc unde pasiunea pentru lupte, disciplina și dorința de performanță se îmbină armonios
-                                pentru a forma campionii de mâine. <br>
-                                <br>
-                                Aici, fiecare sportiv găsește sprijin, îndrumare și motivație pentru a-și atinge potențialul
-                                maxim. Prin muncă, dedicare și respect pentru acest sport nobil, cultivăm nu doar campioni
-                                pe saltea, ci și caractere puternice în viață. <br>
-                                <br>
-                                Vă invit să descoperiți realizările noastre, evenimentele și competițiile la care
-                                participăm, dar și valorile care ne ghidează în fiecare zi. Fie că sunteți sportivi,
-                                părinți, antrenori sau susținători ai acestui sport minunat, vă mulțumim pentru interesul
-                                vostru și vă asigurăm că sunteți mereu bineveniți în familia noastră! <br>
-                                <br>
-                                Cu respect,<br>
-                                Vasile Bodișteanu <br>
-                                Director, Școala Sportivă de Lupte "Fundul Galbenei"
-                            </p>
+                                </a>
+                            </article>
+                        @endif
+                    @endforeach
+                    <div class="col-span-full justify-self-center m-t-4">
+                        <a href="{{ route('noutati') }} ">
+                            <button
+                                class="rounded-[2rem] w-[25rem] h-[3em] text-[1.5rem] bg-[#2f3487] text-white border-2 border-[#2f3487] font-['Public Sans',sans-serif] hover:bg-slate-600  transition-all duration-300">
+                                Vezi mai multe postari
+                            </button>
+                        </a>
+                    </div>
+                </section>
+                <section class="right-section">
+                    <div class="message-director-container">
+                        <h2>Mesajul Directorului Școlii Sportive de lupte Fundul Galbenei</h2>
+                        <span class="horizontal bar">
+                            <hr>
+                        </span>
+                        <div class="message-ctn">
+                            <div class="image-ctn-message">
+                                <img src="{{ asset('/storage/images/dmn-Vasile.jpg') }}" alt="no image">
+                            </div>
+                            <div class="message">
+                                <p>Dragi vizitatori,<br>
+                                    <br>
+                                    Vă salut cu căldură și entuziasm în numele întregii noastre echipe! Școala noastră este
+                                    un
+                                    loc unde pasiunea pentru lupte, disciplina și dorința de performanță se îmbină armonios
+                                    pentru a forma campionii de mâine. <br>
+                                    <br>
+                                    Aici, fiecare sportiv găsește sprijin, îndrumare și motivație pentru a-și atinge
+                                    potențialul
+                                    maxim. Prin muncă, dedicare și respect pentru acest sport nobil, cultivăm nu doar
+                                    campioni
+                                    pe saltea, ci și caractere puternice în viață. <br>
+                                    <br>
+                                    Vă invit să descoperiți realizările noastre, evenimentele și competițiile la care
+                                    participăm, dar și valorile care ne ghidează în fiecare zi. Fie că sunteți sportivi,
+                                    părinți, antrenori sau susținători ai acestui sport minunat, vă mulțumim pentru
+                                    interesul
+                                    vostru și vă asigurăm că sunteți mereu bineveniți în familia noastră! <br>
+                                    <br>
+                                    Cu respect,<br>
+                                    Vasile Bodișteanu <br>
+                                    Director, Școala Sportivă de Lupte "Fundul Galbenei"
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
         </div>
         <div class="champions-container">
             <div class="inside-champions-container">
                 <div class="title-champions-container">
                     <h1>Rezultatele noastre în numere</h1>
-                    <p>Școala Sportivă Fundul Galbenei este una dintre cele mai eficiente școli din intreaga țară. <br> Nu o spunem noi, numerele vorbesc de la sine</p>
+                    <p>Școala Sportivă Fundul Galbenei este una dintre cele mai eficiente școli din intreaga țară. <br> Nu o
+                        spunem noi, numerele vorbesc de la sine</p>
                 </div>
                 <div class="stats-container">
                     <div class="number-champions">
@@ -187,7 +200,7 @@
                     </div>
                     <div class="number-champions">
                         <div class="international-titles odometer plus">0</div>
-                        <div class="type"> Campioni Turnee<br>  Internaționale</div>
+                        <div class="type"> Campioni Turnee<br> Internaționale</div>
                     </div>
                 </div>
             </div>

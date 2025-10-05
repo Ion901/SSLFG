@@ -17,8 +17,7 @@
             </p>
         </div>
         <div class="image">
-            {{-- {{dd($post->images)}} --}}
-            @if($post->images->isNotEmpty())
+            @if($post->image->isNotEmpty())
             <img src="{{ asset($post->images[0]) }}" alt="no image">
             @else
             <div class="alert alert-danger d-flex justify-center">
@@ -81,9 +80,12 @@
     @if (request()->path() == 'noutati')
         <section class="left-section">
             @foreach ($posts as $post)
-                @if ($post->image)
+            @if($post->image->isNotEmpty())
                 <article>
                             <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
+                            <div class="inline-block p-2 m-2 rounded-lg" style="background-color: {{ $post->category->color }}">
+                                <p>{{$post->category['type']}}</p>
+                            </div>
                             <div class="up-part">
                                 <h3>{{ $post->post_title }}</h3>
                             </div>
@@ -101,7 +103,7 @@
                             </div>
                         </a>
                         </article>
-                @endif
+                        @endif
             @endforeach
 
             <div class="d-flex justify-content-center mt-3">
@@ -116,10 +118,13 @@
         @else
             <section class="sectionjj">
                 <div class="noutatzi-container">
+
                     <div class="title-date">
                         <h3>{{ $post->post_title }}</h3>
-                        <p><i class="fa-regular fa-clock"></i> {{ Str::replaceMatches('/\s\d.*/', '', $post->post_date) }}
-                        </p>
+                        <p><i class="fa-regular fa-clock"></i> {{ date('Y-m-d', strtotime($post->post_date)) }}</p>
+                         <div class="inline-block p-2 mt-0.5 rounded-lg" style="background-color: {{ $post->category->color }}">
+                            <p class="text-center mb-0">{{$post->category['type']}}</p>
+                        </div>
                     </div>
                     <div class="image">
                         <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
@@ -162,15 +167,13 @@
                         <h2 class="text-[2.8rem] mb-[2rem]">Postări Recente</h2>
                         <div class="articles">
                             @foreach ($posts as $post)
-                            {{-- @if($post->image) --}}
                             <a id="slug" href="{{route('NewsPost', ['post' => $post->post_slug])}}">
                             <article id="article" class="mb-[1rem]" >
-                                <div class="img-ctn"><img src="{{$post->image[0]->image_path}}" alt="no image"></div>
+                                <div class="img-ctn"><img src="{{ asset($post->image[0]->image_path) }}" alt="no image"></div>
                                 <div class="post_title"><h3>{{$post->post_title}}</h3></div>
                                 <div class="point-read"><i class="fa-solid fa-square-up-right"></i></div>
                             </article>
                         </a>
-                        {{-- @endif --}}
                             @endforeach
                         </div>
                     </div>

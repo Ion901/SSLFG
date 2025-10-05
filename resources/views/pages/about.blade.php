@@ -47,7 +47,7 @@
                 </div>
                 <div class="right-first-row">
                     <div class="image-presentation-container">
-                        <img src="{{ asset('/storage/images/IMG-20240626-WA0023.jpg') }}" alt="no image">
+                        <img src="{{ asset('/storage/images/IMG-20240626-WA0023.jpg') }}" alt="no image" loading="lazy">
                         <div class="quotes-container">
                             <h2>Fii luptător și nu vei regeta!!</h2>
                             <p>Devino mai puternic cu fiecare luptă! Intră pe saltea și depășește-ți limitele!</p>
@@ -57,7 +57,7 @@
             </div>
             <div class="inside">
                 <div class="img-bckg">
-                    <img src="{{ asset('/storage/images/rusu-3.jpg') }}" alt="no image">
+                    <img src="{{ asset('/storage/images/rusu-3.jpg') }}" alt="no image" loading="lazy">
                     <div class="text-over">
                         <h1>FONDAT IN 1977</h1>
                     </div>
@@ -75,34 +75,9 @@
                                <span class="searchInput"> <input type="text" placeholder="Cauta" id="text-search"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 <select name="year" id="year-search" aria-placeholder="Years">
                                     <option value="0" default>An</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2014">2014</option>
-                                    <option value="2013">2013</option>
-                                    <option value="2012">2012</option>
-                                    <option value="2011">2011</option>
-                                    <option value="2010">2010</option>
-                                    <option value="2008">2008</option>
-                                    <option value="2006">2006</option>
-                                    <option value="2005">2005</option>
-                                    <option value="2004">2004</option>
-                                    <option value="2003">2003</option>
-                                    <option value="2002">2002</option>
-                                    <option value="2001">2001</option>
-                                    <option value="2000">2000</option>
-                                    <option value="1997">1997</option>
-                                    <option value="1995">1995</option>
-                                    <option value="1994">1994</option>
-                                    <option value="1993">1993</option>
-                                    <option value="1987">1987</option>
-                                    <option value="1985">1985</option>
-                                    <option value="1983">1983</option>
-                                    <option value="1980">1980</option>
-                                    <option value="1980">1980</option>
+                                    @foreach($dateRange as $year)
+                                    <option value="{{$year}}">{{$year}}</option>
+                                    @endforeach
                                 </select>
 
                             </form>

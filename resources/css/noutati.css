@@ -33,7 +33,7 @@ body {
 }
 
 .left-section article {
-    height: 450px;
+    height: fit-content;
     border-radius: 14px;
     padding: 15px;
     box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
@@ -140,7 +140,7 @@ hr{
 .title-date h3{
     font-size: 3.6rem;
     font-weight: bold;
-    margin-bottom: 3.2rem;
+    margin-bottom: 2rem;
 }
 .title-date p{
     font-size: 1.9rem;
