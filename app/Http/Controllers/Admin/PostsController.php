@@ -299,7 +299,7 @@ class PostsController extends Controller
         $hasImages = $request->hasFile('photo');
 
         //daca in postare avem imagini, actualizam si id_competition din tabelul[post_images]
-        if($post->image){
+        if ($post->image && array_key_exists('id_competition', $updates)) {
             $post->image->each(function ($image) use ($updates) {
                 $image->update([
                     'id_competition' => $updates['id_competition']
@@ -311,6 +311,8 @@ class PostsController extends Controller
         if ($hasUpdates && !$hasImages) {
             $post->update($updates);
             return redirect()->back()->with('success', 'Updated successfully');
+        }elseif(!$hasUpdates && !$hasImages){
+            return back()->with('error','No changes were made');
         }
         // If images exist, process them
         if ($hasImages) {
@@ -327,6 +329,8 @@ class PostsController extends Controller
 
             return redirect()->back()->with('success','The image was added succesfully');
         }
+
+
 
 
         if ($request->hasFile('images')) { //pentru a actualiza pozele prezente la moment

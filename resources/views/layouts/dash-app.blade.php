@@ -15,8 +15,9 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <script src="//unpkg.com/alpinejs" defer></script>
 
-        <!-- Scripts -->
-        @vite(['resources/css/admin/app.css', 'resources/js/admin/app.js'])
+        <!-- Styles -->
+        @vite(['resources/css/admin/app.css'])
+        {{ $styles ?? "" }}
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-100 flex">
@@ -27,5 +28,10 @@
                 {{ $slot }}
             </main>
         </div>
+
+        @vite('resources/js/admin/app.js')
+
+        <!-- Scripts -->
+        {{ $scripts ?? "" }}
     </body>
 </html>

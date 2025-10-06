@@ -7,19 +7,24 @@ html{
 body {
     overflow-x: hidden;
 }
+.left-section{
+    background-color: white;
+    padding-top: 2.2rem;
+    padding-bottom: 6.2rem;
+}
 
-.left-section {
+
+.left-section .grid-container {
     width: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
     gap: 3.2rem;
     justify-content: center;
-    padding-top: 6.2rem;
-    padding-bottom: 6.2rem;
+
     max-width: 100vw;
     margin-left: calc(-100vw / 2 + 100% / 2);
     margin-right: calc(-100vw / 2 + 100% / 2);
-    background-color: white;
+
 }
 
 .left-section a {
@@ -140,12 +145,12 @@ hr{
 .title-date h3{
     font-size: 3.6rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .title-date p{
     font-size: 1.9rem;
     color: #2f3487;
-    margin-bottom: 2.4rem;
+    margin-bottom: 1.2rem;
 }
 h3,p{
     margin-bottom: 0;

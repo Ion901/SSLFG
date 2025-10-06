@@ -1,6 +1,9 @@
-@vite('resources/css/admin/view.css')
-@vite('resources/js/admin/app.js')
 <x-dash-app-layout>
+    <x-slot name="scripts">
+        @vite(['resources/css/admin/view.css','resources/js/noutati.js'])
+    </x-slot>
 
-    @include('../pages/noutati',['admin'=>'true'])
+    <x-admin.news-post :post=$post />
+
+    {{-- @include('../pages/noutati',['admin'=>'true','post'=>$post]) --}}
 </x-dash-app-layout>

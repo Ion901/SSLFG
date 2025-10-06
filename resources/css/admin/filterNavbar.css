@@ -6,6 +6,7 @@
     gap: 10px;
     margin-bottom: 20px;
     margin-top: 20px;
+    font-size: 14px;
 
 }
 .search {
@@ -29,6 +30,7 @@
     border-radius: 4px;
     transition: box-shadow 0.2s ease-in-out;
     outline: none;
+    font-size: 14px;
 }
 .select-from-date input, .select-to-date input, .weight-search input{
     padding: 0px 10px 0px 10px;

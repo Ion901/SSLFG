@@ -6,7 +6,9 @@ use App\Models\Premiants;
 use App\Models\Gallery;
 use App\Models\Posts;
 use App\Models\Campioni;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Filters\PostFilter;
 
 class HomeController extends Controller
 {
@@ -43,11 +45,20 @@ class HomeController extends Controller
             ->pluck('premiants.id_competition')
             ->first();
     }
-    public function news()
+    public function news(Request $request)
     {
-        $posts = Posts::with('image','competition')->paginate(10);
-        // dd($posts);
-        return view('pages.noutati',['posts'=>$posts]);
+        $data = $request->validate([
+            'post_title' => 'nullable|string|max:255',
+            'category' => 'nullable|int|exists:category,id',
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date|after_or_equal:date_from',
+        ]);
+
+        $filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
+        $category = Category::all();
+
+        $posts = Posts::with('image','competition')->filter($filter)->paginate(10);
+        return view('pages.noutati',['posts'=>$posts,'category'=>$category]);
     }
 
     public function gallery()
