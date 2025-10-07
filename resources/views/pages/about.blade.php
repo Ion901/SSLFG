@@ -17,8 +17,8 @@
         <div class="under-section-container">
             <div class="first-row-column">
                 <div class="left-first-row">
-                    <span><small>CINE SUNTEM NOI?</small></span>
-                    <h2>DINCOLO DE LIMITE: ȘCOALA SPORTIVĂ DE LUPTE FUNDUL GALBENEI - POARTA SPRE CAMPIONI</h2>
+                    <span><small class="who-we-are">CINE SUNTEM NOI?</small></span>
+                    <h2 id="title">DINCOLO DE LIMITE: ȘCOALA SPORTIVĂ DE LUPTE FUNDUL GALBENEI - POARTA SPRE CAMPIONI</h2>
                     <div class="content-row">
                         <div class="declaration">
                             <p>Lupta nu este doar un stil de sport, este un stil de viață</p>

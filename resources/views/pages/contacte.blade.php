@@ -5,6 +5,11 @@
 @vite('resources/css/contacte.css')
 @endsection
 
+@section('scripts')
+@parent
+@vite('resources/js/contacte.js')
+@endsection
+
 @section('content')
 @include('layouts.navbar')
 @include('layouts.page-photo')

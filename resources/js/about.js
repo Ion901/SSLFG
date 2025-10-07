@@ -1,3 +1,5 @@
+import { initObserver } from "./intersectionObserver";
+
 const createOdometer = (el, value) => {
     const odometer = new Odometer({
       el: el,
@@ -36,7 +38,8 @@ const createOdometer = (el, value) => {
 
 
 
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
+    initObserver(['.who-we-are, #title,.declaration,.content-row>p,.numbers,.image-presentation-container>img,.quotes-container,.img-bckg>img, .text-over>h1, .table-content'])
     const searchYear = document.querySelector('#year-search')
     const searchText = document.querySelector("#text-search");
     const table = document.querySelector("#dataTable");

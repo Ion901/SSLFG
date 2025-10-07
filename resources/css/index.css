@@ -1,4 +1,5 @@
 /* @import "footer.css"; */
+@import 'intersectionObserver.css';
 @font-face {
     font-family: 'Fedra-SansConds-Bold';
     src: url('/storage/app/public/fonts/Fedra/Fedra-f.otf') format('opentype');
@@ -290,6 +291,7 @@ p {
     gap: 1rem;
     font-size: 3rem;
     color: rgba(6, 91, 209, 1);
+    padding: 10px 0px 10px 0px;
 }
 
 .card-head .location h3 {

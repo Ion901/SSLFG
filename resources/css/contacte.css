@@ -1,4 +1,6 @@
 @import 'page-photo.css';
+@import 'intersectionObserver.css';
+
 @font-face {
     font-family: 'Fedra-SansConds-Bold';
     src: url('/storage/app/public/fonts/Fedra/Fedra-f.otf') format('opentype');
