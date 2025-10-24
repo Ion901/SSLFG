@@ -1,15 +1,7 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css"
-    crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-</script>
+
 <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 @vite('resources/css/admin/create.css')
 @vite('resources/js/admin/create.js')
-
-<link href="{{ asset('build/assets/fileinput.css') }}" rel="stylesheet" type="text/css" />
-
-<script src="{{ asset('build/assets/fileinput.js') }}"></script>
 
 <x-dash-app-layout>
     <div class="page">
@@ -58,9 +50,9 @@
         </div>
 
         @if (Request::old('category') != 'SPORT')
-        {{-- <div class="mb-4 transition-[scale] duration-500 ease-in-out border border-2 m-7 p-7" id="modal"> --}}
+        {{-- <div class="mb-4 transition-[scale] duration-500 ease-in-out border-2 m-7 p-7" id="modal"> --}}
             {{-- @else --}}
-        <div class="mb-4 hidden transition-[scale] duration-500 ease-in-out border border-2 m-7 p-7" id="modal">
+        <div class="mb-4 hidden transition-[scale] duration-500 ease-in-out border-2 m-7 p-7" id="modal">
             @endif
             <label for="competition_name" class="block text-gray-700 font-bold mb-2">Numele Competitie</label>
             <input type="text" id="competition_name" name="competition_name"
@@ -99,6 +91,7 @@
                 <div class="col">
                     <input id="photo1" name="photo[]" type="file" class="file" multiple data-show-upload="true"
                         data-show-remove="true" data-show-caption="true"
+                        data-fileinput-options='{"maxFileCount":13,"showUpload":false,"showRemove":true}'
                         data-msg-placeholder="Select {files} pentru postare...">
                 </div>
             </div>
@@ -123,10 +116,4 @@
         .catch(error => {
             console.error(error);
         });
-
-    $(document).ready(function() {
-        $("#photo1").fileinput({
-            maxFileCount: 13
-        });
-    });
 </script>

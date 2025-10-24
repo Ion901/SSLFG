@@ -8,8 +8,7 @@
         <title>{{ $title ?? "Dashboard" }}</title>
 
         <!-- Fonts -->
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://kit.fontawesome.com/d258707c8d.js" crossorigin="anonymous"></script>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

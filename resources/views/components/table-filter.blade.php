@@ -1,11 +1,11 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>/ --}}
 <link href="{{ asset('build/assets/yearpicker.css') }}" rel="stylesheet" />
-<script src="{{ asset('build/assets/yearpicker.js') }}" async></script>
+<script src="{{ asset('build/assets/yearpicker.js') }}" ></script>
 @props(['tableName','id','columns','data','filters'=>[], 'actions' => []])
 
 <x-filter-data :$tableName :$filters/>
 
-<table class="m-0 m-auto table table-bordered table-hover">
+<table class="m-auto table table-bordered table-hover">
     <tr>
         @foreach ($columns as $column)
         <th>{{$column}}</th>
@@ -57,7 +57,7 @@
 
 </table>
 <script>
-    //  $(document).ready(function() {
+     $(document).ready(function() {
         $(function() {
             $('.yearpicker').each(function() {
             const initialValue = $(this).val();
@@ -65,5 +65,5 @@
             $(this).val(initialValue); // Restore the initial value
         });
         });
-    // })
+    })
 </script>

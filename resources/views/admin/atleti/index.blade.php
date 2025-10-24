@@ -5,7 +5,7 @@
         <x-crud-button :href="route('premiants.create')" :add="true">
             Adauga premiantii
         </x-crud-button>
-        <h1 class="justify-content-sm-center text-center text-3xl m-0 m-auto">Premianți</h1>
+        <h1 class="justify-content-sm-center text-center text-3xl m-auto">Premianți</h1>
     </div>
 
     <x-table-filter

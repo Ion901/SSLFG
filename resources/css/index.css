@@ -449,6 +449,7 @@ p {
 .up-part h3 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp:2;
     /* Limits to 2 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -508,11 +509,12 @@ p {
 .article-caption p {
     display: -webkit-box;
     -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    line-clamp: 5;
     line-height: 2.2rem;
     height: 8.8rem;
     word-break: break-word;
     font-size: 1.6rem;
-    line-break: anywhere;
     overflow: hidden;
     color: black;
 }
@@ -520,6 +522,7 @@ p {
 .article-caption p:hover {
     color: rgb(115, 149, 230);
 }
+
 
 
 .champions-container {

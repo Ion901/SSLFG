@@ -18,3 +18,9 @@
 .margin-left {
     margin-left: -17% !important;
 }
+a{
+    text-decoration: none !important;
+}
+a:hover{
+    text-decoration: none;
+}

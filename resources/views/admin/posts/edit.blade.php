@@ -1,17 +1,9 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css"
-    crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"> </script>
 @vite('resources/css/admin/create.css')
 @vite(['resources/js/admin/create.js','resources/js/admin/editPost.js'])
-
-
-<link href="{{ asset('build/assets/fileinput.css') }}" rel="stylesheet" type="text/css" />
-
-<script src="{{ asset('build/assets/fileinput.js') }}"></script>
 
 <x-dash-app-layout>
     <div class="page">
@@ -140,6 +132,7 @@
                 <div class="col">
                     <input id="photo1" name="photo[]" type="file" class="file" multiple data-show-upload="true"
                         data-show-remove="true" data-show-caption="true"
+                        data-fileinput-options='{"maxFileCount":13,"showUpload":false,"showRemove":true}'
                         data-msg-placeholder="Select {files} pentru postare...">
 
                 </div>
@@ -214,13 +207,6 @@
         });
 
 
-    $(document).ready(function() {
-        $("#photo1").fileinput({
-            maxFileCount: 13
-        });
-    });
-
-
         $(".custom-file-input").on("change", function() {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -233,9 +219,4 @@
         fileInput.val(""); // Clear only this specific input
         fileLabel.removeClass("selected").html("Choose file"); // Reset label
     });
-
-
-
-
 </script>
-

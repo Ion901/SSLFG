@@ -5,7 +5,7 @@
         <x-crud-button :href="route('athlets.create')" :add="true">
             Adauga sportivi
         </x-crud-button>
-        <h1 class="justify-content-sm-center text-center text-3xl m-0 m-auto">Sportivi</h1>
+        <h1 class="justify-content-sm-center text-center text-3xl m-auto">Sportivi</h1>
     </div>
 
     <x-table-filter

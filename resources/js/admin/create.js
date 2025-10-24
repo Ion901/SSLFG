@@ -1,5 +1,3 @@
-import '../bootstrap';
-import '../../../public/build/assets/fileinput'
 import { startlightbox } from '../lightbox';
 
 startlightbox();
