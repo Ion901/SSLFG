@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title ?? "Dashboard" }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://kit.fontawesome.com/d258707c8d.js" crossorigin="anonymous"></script>
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <script src="//unpkg.com/alpinejs" defer></script>
+    <title>{{ $title ?? 'Dashboard' }}</title>
 
-        <!-- Styles -->
-        @vite(['resources/css/admin/app.css'])
-        {{ $styles ?? "" }}
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-100 flex">
-            @include('layouts.navigation')
+    <!-- Fonts -->
+    <script src="https://kit.fontawesome.com/d258707c8d.js" crossorigin="anonymous"></script>
 
-            <!-- Page Content -->
-            <main class="w-[100%] transition-[margin] duration-500 ease-in-out">
-                {{ $slot }}
-            </main>
-        </div>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <script src="//unpkg.com/alpinejs" defer></script>
 
-        @vite('resources/js/admin/app.js')
+    @vite('resources/css/admin/app.css')
+    {{ $styles ?? "" }}
 
-        <!-- Scripts -->
-        {{ $scripts ?? "" }}
-    </body>
+    <!-- Styles -->
+    {{-- @section('style')
+    @vite('resources/css/admin/app.css')
+    @show
+
+    <!-- Scripts -->
+    @section('scripts')
+    @vite('resources/js/admin/app.js')
+    @show --}}
+
+</head>
+
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-100 flex">
+        @include('layouts.navigation')
+
+        <!-- Page Content -->
+        <main class="w-[100%] transition-[margin] duration-500 ease-in-out">
+            {{ $slot }}
+        </main>
+    </div>
+
+</body>
+@vite('resources/js/admin/app.js')
+{{ $scripts ?? "" }}
 </html>

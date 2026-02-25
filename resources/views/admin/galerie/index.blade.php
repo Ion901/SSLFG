@@ -1,9 +1,14 @@
-<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"> </script>
-<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-@vite(['resources/js/galerie.js','resources/css/admin/galerie.css','resources/css/breadcrumb.css'])
 <x-dash-app-layout>
+
+    <x-slot name="scripts">
+        @vite('resources/js/galerie.js')
+    </x-slot>
+
+    <x-slot name="styles">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+        @vite(['resources/css/admin/galerie.css','resources/css/breadcrumb.css'])
+    </x-slot>
+
     <div class="page">
         {{ Breadcrumbs::render('gallery') }}
     </div>
@@ -82,20 +87,3 @@
     </a>
     </div>
 </x-dash-app-layout>
-    <script >
-        document.addEventListener("DOMContentLoaded", function() {
-            $(".custom-file-input").on("change", function() {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
-
-        $(".clear-file").on("click", function () {
-            var fileInput = $(this).closest("form").find(".custom-file-input");
-            var fileLabel = $(this).closest("form").find(".custom-file-label");
-
-            fileInput.val(""); // Clear only this specific input
-            fileLabel.removeClass("selected").html("Choose file"); // Reset label
-        });
-    });
-
-    </script>

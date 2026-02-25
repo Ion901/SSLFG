@@ -1,4 +1,4 @@
-.filter-container{
+.filter-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,8 +7,15 @@
     margin-bottom: 20px;
     margin-top: 20px;
     font-size: 14px;
-
+    flex-wrap: wrap;
 }
+
+form{
+    width: auto;
+    max-width: 100vw;
+    padding-inline: calc(-70vw / 2 + 100% / 2);
+}
+
 .search {
     position: relative;
 }
@@ -21,6 +28,7 @@
     transition: box-shadow 0.2s ease-in-out;
     outline: none;
 }
+
 .search input {
     padding: 8px 16px;
     height: 35px;
@@ -32,7 +40,12 @@
     outline: none;
     font-size: 14px;
 }
-.select-from-date input, .select-to-date input, .weight-search input{
+
+.select-from-date input,
+.select-to-date input,
+.weight-search input,
+.year-search input {
+    width: fit-content;
     padding: 0px 10px 0px 10px;
     height: 35px;
     border: 1px solid #adabab;
@@ -41,10 +54,21 @@
     outline: none;
 }
 
-.search input:hover, .select-category select:hover, .select-from-date input:hover, .select-to-date input:hover, .find-search:hover, .weight-search input:hover {
+.search input:hover,
+.select-category select:hover,
+.select-from-date input:hover,
+.select-to-date input:hover,
+.find-search:hover,
+.weight-search input:hover {
     box-shadow: 0 0 10px rgba(110, 108, 108, 0.559);
 }
-.search input:focus, .select-category select:focus,.select-from-date input:focus,.select-to-date input:focus, .find-search:focus, .weight-search input:focus{
+
+.search input:focus,
+.select-category select:focus,
+.select-from-date input:focus,
+.select-to-date input:focus,
+.find-search:focus,
+.weight-search input:focus {
     box-shadow: none;
     border: 2px solid blue;
 }
@@ -57,12 +81,27 @@
     font-size: 14px;
 }
 
-.find-search{
+.find-search {
     padding: 0px 15px 0px 15px;
     height: 35px;
     border: 1px solid #adabab;
     background-color: rgb(86, 244, 175);
-    outline:none;
+    outline: none;
     transition: box-shadow 0.2s ease-in-out;
     border-radius: 4px;
+}
+
+#from_date, #to_date{
+    border:1px solid gray;
+    height: 3.5rem;
+}
+.date-filter label[for="from_date"], .date-filter label[for="to_date"] {
+    font-size: 1.6rem;
+}
+
+@media only screen and (max-width:768px) {
+    /* .filter-container {
+        flex-direction: column;
+        align-items:start;
+    } */
 }

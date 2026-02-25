@@ -66,11 +66,18 @@
 .breadcrumb-item.active,
 .breadcrumb-item {
     color: rgb(255, 255, 255);
-
+    height: fit-content;
     font-size: 22px;
+    text-align: center;
     font-weight: bold;
 }
+.breadcrumb{
+    justify-content: center;
+    padding-inline: 4rem;
+}
+
 
 .breadcrumb-item+.breadcrumb-item::before {
+    float: none;
     color: rgb(255, 255, 255);
 }

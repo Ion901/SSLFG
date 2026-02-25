@@ -1,3 +1,27 @@
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+ClassicEditor.create(document.querySelector('#content'), {
+    toolbar: ['heading', 'undo', 'redo', 'bold', 'italic', 'numberedList', 'bulletedList', 'blockquote',
+        'link'
+    ]
+})
+    .catch(error => {
+        console.error(error);
+    });
+
+$(".custom-file-input").on("change", function () {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+
+$(".clear-file").on("click", function () {
+    var fileInput = $(this).closest("form").find(".custom-file-input");
+    var fileLabel = $(this).closest("form").find(".custom-file-label");
+
+    fileInput.val(""); // Clear only this specific input
+    fileLabel.removeClass("selected").html("Choose file"); // Reset label
+});
+
 
 let category = document.getElementById("category");
 

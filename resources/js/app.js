@@ -5,6 +5,8 @@ const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const container = document.querySelector('.container-fluid');
 const body = document.querySelector('body');
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 
 let lastScrollTop = 0;
 if (navbar) {

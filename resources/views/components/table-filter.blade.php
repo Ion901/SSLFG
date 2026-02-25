@@ -1,27 +1,26 @@
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>/ --}}
-<link href="{{ asset('build/assets/yearpicker.css') }}" rel="stylesheet" />
-<script src="{{ asset('build/assets/yearpicker.js') }}" ></script>
-@props(['tableName','id','columns','data','filters'=>[], 'actions' => []])
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+{{-- <link href="{{ asset('build/assets/yearpicker.css') }}" rel="stylesheet"  defer/>
+<script src="{{ asset('build/assets/yearpicker.js') }}" defer></script> --}}
+@props(['tableName', 'id', 'columns', 'data', 'filters' => [], 'actions' => []])
 
-<x-filter-data :$tableName :$filters/>
+<x-filter-data :$tableName :$filters />
 
 <table class="m-auto table table-bordered table-hover">
     <tr>
         @foreach ($columns as $column)
-        <th>{{$column}}</th>
+            <th>{{ $column }}</th>
         @endforeach
     </tr>
     @forelse ($data as $row)
 
         <tr class="border-b-4 border-black mb-2">
-            @foreach ($columns as $key => $value )
-
-                @if($key === 'post_title')
+            @foreach ($columns as $key => $value)
+                @if ($key === 'post_title')
                     <td class="break-words text-left pr-3">{{ $row[$key] }}</td>
                 @elseif($value === 'Date')
                     <td class="pr-3">{{ Str::replaceMatches('/\s\d.*/', '', $row[$key]) }}</td>
                 @else
-                    <td class="pr-3">{{ $key == "category" ? $row[$key]['type'] : $row[$key] }}</td>
+                    <td class="pr-3">{{ $key == 'category' ? $row[$key]['type'] : $row[$key] }}</td>
                 @endif
             @endforeach
             <td class="select-none">
@@ -50,20 +49,11 @@
 
         </tr>
     @empty
-    <tr>
-        <td colspan="{{ count($columns) + ($actions ? 1 : 0) }}" class="text-center py-4">Nu există date disponibile.</td>
-    </tr>
+        <tr>
+            <td colspan="{{ count($columns) + ($actions ? 1 : 0) }}" class="text-center py-4">Nu există date
+                disponibile.</td>
+        </tr>
     @endforelse
 
 </table>
-<script>
-     $(document).ready(function() {
-        $(function() {
-            $('.yearpicker').each(function() {
-            const initialValue = $(this).val();
-            $(this).yearpicker(); // Initialize the yearpicker
-            $(this).val(initialValue); // Restore the initial value
-        });
-        });
-    })
-</script>
+

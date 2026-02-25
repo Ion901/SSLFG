@@ -1,5 +1,11 @@
-@vite('resources/css/admin/filterNavbar.css')
 <x-dash-app-layout>
+    <x-slot name="styles">
+        @vite('resources/css/admin/filterNavbar.css')
+    </x-slot>
+
+    <x-slot name="scripts">
+        @vite('resources/js/admin/pickerImplementation.js')
+    </x-slot>
 
     <div class="flex ml-8">
         <x-crud-button :href="route('athlets.create')" :add="true">

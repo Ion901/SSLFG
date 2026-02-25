@@ -1,10 +1,14 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-@vite(['resources/css/breadcrumb.css', 'resources/css/admin/combobox.css','resources/js/admin/editAthlet.js'])
-
 <x-dash-app-layout>
+
+    <x-slot name="styles">
+    @vite(['resources/css/breadcrumb.css', 'resources/css/admin/combobox.css'])
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </x-slot>
+
+    <x-slot name="scripts">
+        @vite(['resources/js/admin/editAthlet.js'])
+    </x-slots>
+
     <div class="page">
         {{ Breadcrumbs::render('editPremiant') }}
     </div>
@@ -45,14 +49,16 @@
                 </select> --}}
             <label for="athlet_name" class="text-gray-700 font-bold mb-2">Numele sportivului</label>
 
-            <input type="hidden" name="athlet_id_fetched" id="id_athlet_fetched" value="{{$premiant->athlet->id  ?? ''}}">
+            <input type="hidden" name="athlet_id_fetched" id="id_athlet_fetched"
+                value="{{ $premiant->athlet->id ?? '' }}">
             <select name="athlet_name" id="athlet_name"
                 class="select-picker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
                 {{-- <option value="" disabled selected>Numele premiantului</option> --}}
                 @foreach ($athlets as $athlet)
                     <option value="{{ $athlet->fullName }}"
-                        {{ $premiant->athlet->fullName == $athlet->fullName ? 'selected' : '' }} data-athlet-id="{{ $athlet->id }}">
-                        {{-- {{ $athlet->fullName }} --}}
+                        {{ $premiant->athlet->fullName == $athlet->fullName ? 'selected' : '' }}
+                        data-athlet-id="{{ $athlet->id }}">
+                        {{ $athlet->fullName }}
                     </option>
                 @endforeach
             </select>
@@ -90,20 +96,4 @@
         </a>
     </form>
 </x-dash-app-layout>
-<script>
-    let selectAthlet = document.querySelector(".select-picker");
-    let hiddenAthlet = document.querySelector("#id_athlet_fetched");
-    $(selectAthlet).on('change',
-        function() { //pentru select2[plugin] interactioneaza cu eventurile diferit, de asta utilizez jquery
-            let selectedOption = this.options[this.selectedIndex];
-            hiddenAthlet.value = selectedOption.getAttribute("data-athlet-id");
-            // console.log(selectedOption);
 
-        });
-
-    $(document).ready(function() {
-        $(function() {
-            $('.select-picker').select2();
-        });
-    });
-</script>

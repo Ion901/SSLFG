@@ -1,5 +1,9 @@
-@vite(['resources/js/admin/app.js', 'resources/css/breadcrumb.css'])
 <x-dash-app-layout>
+
+    <x-slot name="styles">
+        @vite('resources/css/breadcrumb.css')
+    </x-slot>
+
     <div class="page">
         {{ Breadcrumbs::render('addPhoto') }}
     </div>

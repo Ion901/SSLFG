@@ -1,5 +1,9 @@
 /* @import "footer.css"; */
 @import 'intersectionObserver.css';
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 @font-face {
     font-family: 'Fedra-SansConds-Bold';
     src: url('/storage/app/public/fonts/Fedra/Fedra-f.otf') format('opentype');
@@ -10,11 +14,6 @@
     src: url('/storage/app/public/fonts/Avenir/avenir-next-w1g-regular-demo.html') format('html');
 }
 
-@font-face {
-    font-family: 'SwiftelFill';
-    src: url('/storage/app/public/fonts/SwiftelFill/swiftel_base_demo-webfont.woff') format('woff'),
-        url('/storage/app/public/fonts/SwiftelFill/swiftel_base_demo-webfont.woff2') format('woff2');
-}
 
 html {
     font-size: 62.5%;
@@ -282,6 +281,7 @@ p {
 
 .card-content h1 {
     font-size: 3.36rem;
+    margin-bottom: 0;
 }
 
 .card-head .location {
@@ -399,7 +399,6 @@ p {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 1.6rem;
-
 }
 
 .message-director-container {
@@ -418,7 +417,7 @@ p {
 }
 
 .left-section article {
-    /* height: 100%; */
+    height: max-content;
     border-radius: 1.4rem;
     padding: 1.5rem;
     box-shadow: 0rem .3rem 1rem 0rem rgba(0, 0, 0, 0.1);
@@ -449,7 +448,7 @@ p {
 .up-part h3 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp:2;
+    line-clamp: 2;
     /* Limits to 2 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -560,6 +559,8 @@ p {
 }
 
 .stats-container .number-champions .type {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
     font-size: 2rem;
 }
 
@@ -576,7 +577,9 @@ p {
 }
 
 .title-champions-container h1 {
-    font-family: 'SwiftelFill';
+
+    font-family: "Bebas Neue", sans-serif;
+    font-style: normal;
     font-size: 9vh;
     color: white;
     font-style: italic;
@@ -584,7 +587,8 @@ p {
 }
 
 .title-champions-container p {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-family: "Montserrat", sans-serif;
+        font-style: normal;
     font-size: 1.5rem;
     line-break: normal;
     font-style: italic;
@@ -593,10 +597,20 @@ p {
     color: white;
 }
 
+
 @media only screen and (max-width:768px) {
     body {
         overflow-x: hidden;
     }
+
+    .card-content {
+        height: 32vh;
+    }
+
+    .info-card {
+        height: 50vh;
+    }
+
 
     .container-subsection {
         display: flex;
@@ -604,6 +618,10 @@ p {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+    }
+
+    .page>.swiper {
+        height: 50vh;
     }
 
     .left-section {
@@ -627,8 +645,9 @@ p {
 
     .swiper-button-next,
     .swiper-button-prev {
-        top: 37.68rem;
+        top: 26.68rem;
     }
+
 
     #first-button-next,
     #second-button-next {
@@ -636,7 +655,7 @@ p {
     }
 
     #first-button-next {
-        left: 93%;
+        left: 83%;
     }
 
     #second-button-next {
@@ -660,11 +679,63 @@ p {
 
 @media only screen and (max-width: 600px) {
     .swiper-button-next {
-        left: 65%;
+        left: 84%;
+    }
+        .right-section{
+            width: unset;
+        }
+
+        .stats-container .number-champions {
+            padding: .6rem;
+        }
+
+        .container-section h2 {
+            margin: 4.5rem 2.5rem;
+            font-size: 2.36rem;
+            text-align: center;
+        }
+
+    .left-section article .up-part h3 {
+        font-size: 1.6rem;
+    }
+
+    .up-part {
+        height: fit-content;
+    }
+
+    .article-image img {
+        height: 10em;
+    }
+    .bottom-part button{
+        display: none;
+    }
+
+    .bottom-part {
+        padding: 0.2rem
+    }
+
+    .left-section article {
+        padding:1rem;
+    }
+        .article-caption p{
+            font-size:1.5rem;
+            line-height:2.1rem;
+            font-weight: 500;
+        }
+
+    .left-section {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: 1.6rem;
+    }
+
+    .cards {
+        margin-right: 0;
     }
 
     .swiper-button-prev {
-        left: 28%;
+        left: 10%;
     }
 
     .swiper-button-next:after,
@@ -676,12 +747,12 @@ p {
 
     .swiper-button-next,
     .swiper-button-prev {
-        top: 37.68rem;
+        top: 22.68rem;
     }
 
     #first-button-next,
     #second-button-next {
-        top: 35rem;
+        top: 20rem;
     }
 
     #first-button-next {
@@ -694,7 +765,7 @@ p {
 
     .info-ctn {
         width: 55vw;
-        top: 35rem;
+        top: 20rem;
     }
 
     .info-ctn h2 {

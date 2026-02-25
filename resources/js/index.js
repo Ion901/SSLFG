@@ -1,7 +1,7 @@
 import { initObserver } from "./intersectionObserver";
 
 document.addEventListener('DOMContentLoaded', () => {
-    initObserver(['.in-between, .info-card,.cards, .container-section>h2, .left-section>article,.message-director-container>h2, .message,.image-ctn-message,.title-champions-container,.stats-container,footer'])
+    initObserver(['.in-between, .info-card, .container-section>h2, .left-section>article,.message-director-container>h2, .message,.image-ctn-message,.title-champions-container,.stats-container,footer'])
 })
 
 const progressCircle = document.querySelector(".autoplay-progress svg");

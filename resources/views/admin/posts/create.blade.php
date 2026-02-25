@@ -1,9 +1,12 @@
-
-<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
-@vite('resources/css/admin/create.css')
-@vite('resources/js/admin/create.js')
-
 <x-dash-app-layout>
+
+    <x-slot name="styles">
+        @vite('resources/css/admin/create.css')
+    </x-slot>
+    <x-slot name="scripts">
+        @vite('resources/js/admin/create.js')
+    </x-slot>
+
     <div class="page">
         {{ Breadcrumbs::render('addPost') }}
     </div>
@@ -106,14 +109,4 @@
         </a>
     </form>
 </x-dash-app-layout>
-{{-- Edit text and multiple image js --}}
-<script>
-    ClassicEditor.create(document.querySelector('#content'), {
-            toolbar: ['heading', 'undo', 'redo', 'bold', 'italic', 'numberedList', 'bulletedList', 'blockquote',
-                'link'
-            ]
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
+

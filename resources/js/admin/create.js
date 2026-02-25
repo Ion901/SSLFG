@@ -1,5 +1,5 @@
 import { startlightbox } from '../lightbox';
-
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 startlightbox();
 
 const linkModal = document.querySelector('#linkModal');
@@ -35,3 +35,12 @@ category.addEventListener('change',function(){
         modal.classList.add('hidden')
     }
 })
+
+ClassicEditor.create(document.querySelector('#content'), {
+    toolbar: ['heading', 'undo', 'redo', 'bold', 'italic', 'numberedList', 'bulletedList', 'blockquote',
+        'link'
+    ]
+})
+    .catch(error => {
+        console.error(error);
+    });

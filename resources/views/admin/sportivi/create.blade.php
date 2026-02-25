@@ -1,11 +1,15 @@
-{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
-@vite(['resources/css/breadcrumb.css','resources/js/admin/addCrudAthlets.js'])
-
-<link href="{{ asset('build/assets/yearpicker.css') }}" rel="stylesheet" />
-<script src="{{ asset('build/assets/yearpicker.js') }}" async></script>
 
 <x-dash-app-layout>
+
+    <x-slot name="styles">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        @vite('resources/css/breadcrumb.css')
+    </x-slot>
+
+    <x-slot name="scripts">
+        @vite(['resources/js/admin/addCrudAthlets.js','resources/js/admin/pickerImplementation.js'])
+    </x-slot>
+
     <div class="page">
         {{ Breadcrumbs::render('addSportivi') }}
     </div>
@@ -40,13 +44,13 @@
                 <td>
                     <input type="text" id="athlet_fullName" name="inputs[0][athlet_fullName]"
                         class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-                        placeholder="Nume, Prenume" >
+                        placeholder="Nume, Prenume">
 
                 </td>
                 <td>
-                        <input type="number" id="athlet_birthdate" name="inputs[0][athlet_birthdate]"
+                    <input type="number" id="athlet_birthdate" name="inputs[0][athlet_birthdate]"
                         class="yearpicker w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-                        placeholder="Anul nasterii" >
+                        placeholder="Anul nasterii">
                 </td>
                 <td>
                     <button type="button" name="add" id="add" class="btn btn-success">Adaugă
@@ -64,10 +68,4 @@
         </a>
     </form>
 </x-dash-app-layout>
-<script>
-    $(document).ready(function() {
-        $(function() {
-            $('.yearpicker').yearpicker();
-        });
-    })
-</script>
+

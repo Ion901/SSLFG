@@ -1,7 +1,10 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-@vite('resources/css/breadcrumb.css')
-
 <x-dash-app-layout>
+
+     <x-slot name="styles">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        @vite('resources/css/breadcrumb.css')
+    </x-slot>
+
     <div class="page">
         {{ Breadcrumbs::render('addCompetition') }}
     </div>

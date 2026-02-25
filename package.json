@@ -17,9 +17,13 @@
         "vite": "^6.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^41.4.2",
         "bootstrap": "^5.3.8",
         "bootstrap-fileinput": "^5.5.4",
         "bootstrap-icons": "^1.13.1",
-        "jquery": "^3.7.1"
+        "bs-custom-file-input": "^1.3.4",
+        "jquery": "3.6.0",
+        "select2": "^4.1.0-rc.0",
+        "yearpicker.js": "^1.0.1"
     }
 }

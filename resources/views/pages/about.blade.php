@@ -18,7 +18,8 @@
             <div class="first-row-column">
                 <div class="left-first-row">
                     <span><small class="who-we-are">CINE SUNTEM NOI?</small></span>
-                    <h2 id="title">DINCOLO DE LIMITE: ȘCOALA SPORTIVĂ DE LUPTE FUNDUL GALBENEI - POARTA SPRE CAMPIONI</h2>
+                    <h2 id="title">DINCOLO DE LIMITE: ȘCOALA SPORTIVĂ DE LUPTE FUNDUL GALBENEI - POARTA SPRE CAMPIONI
+                    </h2>
                     <div class="content-row">
                         <div class="declaration">
                             <p>Lupta nu este doar un stil de sport, este un stil de viață</p>
@@ -72,11 +73,12 @@
                         </p>
                         <div class="search-bar">
                             <form action="" name="submit">
-                               <span class="searchInput"> <input type="text" placeholder="Cauta" id="text-search"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                <span class="searchInput"> <input type="text" placeholder="Cauta" id="text-search"><i
+                                        class="fa-solid fa-magnifying-glass"></i></span>
                                 <select name="year" id="year-search" aria-placeholder="Years">
                                     <option value="0" default>An</option>
-                                    @foreach($dateRange as $year)
-                                    <option value="{{$year}}">{{$year}}</option>
+                                    @foreach ($dateRange as $year)
+                                        <option value="{{ $year }}">{{ $year }}</option>
                                     @endforeach
                                 </select>
 
@@ -86,7 +88,7 @@
                         <div class="hscroll">
                             @include('layouts.table')
                         </div>
-                </div>
+                    </div>
                 </div>
             </div>
 

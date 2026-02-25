@@ -57,7 +57,7 @@ class HomeController extends Controller
         $filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
         $category = Category::all();
 
-        $posts = Posts::with('image','competition')->filter($filter)->paginate(10);
+        $posts = Posts::with('image','competition','category')->filter($filter)->paginate(10);
         return view('pages.noutati',['posts'=>$posts,'category'=>$category]);
     }
 

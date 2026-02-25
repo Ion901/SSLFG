@@ -1,5 +1,8 @@
-@vite('resources/css/admin/filterNavbar.css')
 <x-dash-app-layout>
+
+    <x-slot name="styles">
+        @vite('resources/css/admin/filterNavbar.css')
+    </x-slot>
 
     <div class="flex ml-8">
         <x-crud-button :href="route('competitions.create')" :add="true">

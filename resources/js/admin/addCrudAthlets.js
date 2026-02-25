@@ -2,6 +2,9 @@ let addBtn = document.querySelector("#add");
 let table = document.querySelector("#table>tbody");
 let i = 1;
 
+// import 'yearpicker.js/dist/yearpicker.js';
+// import 'yearpicker.js/dist/yearpicker.css';
+
 // Add new row
 addBtn.addEventListener("click", function () {
     let newRow = document.createElement("tr");
@@ -36,3 +39,7 @@ addBtn.addEventListener("click", function () {
         newRow.remove();
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    $('.yearpicker').yearpicker()
+})
