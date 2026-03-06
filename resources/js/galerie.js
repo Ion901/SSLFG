@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (/gallery/.test(page)) {
             $(".custom-file-input").on("change", function () {
                 var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                $(this).siblings(".custom-file-label").addClass("selected").text(fileName);
             });
 
             $(".clear-file").on("click", function () {
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var fileLabel = $(this).closest("form").find(".custom-file-label");
 
                 fileInput.val(""); // Clear only this specific input
-                fileLabel.removeClass("selected").html("Choose file"); // Reset label
+                fileLabel.removeClass("selected").text("Choose file"); // Reset label
             });
         }
     }
