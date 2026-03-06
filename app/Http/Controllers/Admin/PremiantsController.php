@@ -24,19 +24,21 @@ class PremiantsController extends Controller
             'competition' => 'nullable|string',
             'weight' => 'nullable|int',
             'place' => 'nullable|int',
+            'date' => 'nullable|date',
         ]);
 
         $filter = app()->make(PremiantsFilter::class, ['queryParams' => array_filter($data)]);
 
 
-        $athletes = Premiants::with('athlet','competition')->filter($filter)->paginate(12)->through(function($athlet){
+        $athletes = Premiants::with('athlet','competition')->filter($filter)->orderBy('created_at', 'desc')->paginate(12)->through(function($athlet){
             return [
             'id'=> $athlet->id,
             'fullName' => $athlet->fullName(),
             'age' => $athlet->age(),
             'weight' => $athlet->weight,
             'place' => $athlet->place,
-            'competitionName' => $athlet->competitionName()
+            'competitionName' => $athlet->competitionName(),
+            'date' => $athlet->dataCompetition()
             ];
         });
 

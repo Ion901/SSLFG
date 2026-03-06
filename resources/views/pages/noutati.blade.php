@@ -17,53 +17,51 @@
 
     @if (request()->path() == 'noutati')
         <section class="left-section">
-        <x-filter-data
-        :tableName="'noutati'"
-        :filters="[
-            'post_title' => ['type' => 'text', 'placeholder' => 'Cauta dupa numele postării'],
-            'category' => [
-                'type' => 'select',
-                'options' => $category->pluck('type', 'id')->toArray(),
-            ],
-            'from_date' => ['type' => 'date', 'label' => 'Începând cu:'],
-            'to_date' => ['type' => 'date', 'label' => 'Pînă pe:'],
-        ]" />
-        <div class="grid-container">
+            <x-filter-data :tableName="'noutati'" :filters="[
+                'post_title' => ['type' => 'text', 'placeholder' => 'Cauta dupa numele postării'],
+                'category' => [
+                    'type' => 'select',
+                    'options' => $category->pluck('type', 'id')->toArray(),
+                ],
+                'from_date' => ['type' => 'date', 'label' => 'Începând cu:'],
+                'to_date' => ['type' => 'date', 'label' => 'Pînă pe:'],
+            ]" />
+            <div class="grid-container">
 
-            @foreach ($posts as $post)
-                @if ($post->image->isNotEmpty())
-                    <article>
-                        <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
-                            <div class="inline-block p-2 m-2 rounded-lg"
-                                style="background-color: {{ $post->category->color }}">
-                                <p>{{ $post->category['type'] }}</p>
-                            </div>
-                            <div class="up-part">
-                                <h3>{{ $post->post_title }}</h3>
-                            </div>
-                            <p>{{ date('Y-m-d', strtotime($post->post_date)) }}</p>
-                            <hr>
-                            <div class="bottom-part">
-                                <div class="article-image">
-                                    <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
+                @foreach ($posts as $post)
+                    @if ($post->image->isNotEmpty())
+                        <article>
+                            <a href="{{ route('NewsPost', ['post' => $post->post_slug]) }}">
+                                <div class="inline-block p-2 m-2 rounded-lg"
+                                    style="background-color: {{ $post->category->color }}">
+                                    <p>{{ $post->category['type'] }}</p>
                                 </div>
-                                <div class="article-caption">
-                                    {!! Str::limit($post->post_content, 200) !!}
+                                <div class="up-part">
+                                    <h3>{{ $post->post_title }}</h3>
                                 </div>
-                                <button>Citeste mai
-                                    mult</button>
-                            </div>
-                        </a>
-                    </article>
-                @endif
-            @endforeach
-        </div>
+                                <p>{{ date('Y-m-d', strtotime($post->post_date)) }}</p>
+                                <hr>
+                                <div class="bottom-part">
+                                    <div class="article-image">
+                                        <img src="{{ asset($post->image[0]->image_path) }}" alt="no image">
+                                    </div>
+                                    <div class="article-caption">
+                                        {!! Str::limit($post->post_content, 200) !!}
+                                    </div>
+                                    <button>Citeste mai
+                                        mult</button>
+                                </div>
+                            </a>
+                        </article>
+                    @endif
+                @endforeach
+            </div>
 
             <div class="d-flex justify-content-center mt-3">
                 {{ $posts->links() }}
             </div>
-            @if($posts->isEmpty())
-                <p class="text-center text-[20px]" >Nu exista asemenea postari</p>
+            @if ($posts->isEmpty())
+                <p class="text-center text-[20px]">Nu exista asemenea postari</p>
             @endif
         </section>
     @else
@@ -103,10 +101,12 @@
                             @endif
                             <div class="images-post">
                                 @foreach ($post->image as $index => $image)
-                                    <div class="images-slider">
-                                        <img loading="lazy" class="myImg" data-index="{{ $index }}"
-                                            src="{{ asset($image->image_path) }}" alt="error">
-                                    </div>
+                                    @if (count($post->image) > 1)
+                                        <div class="images-slider">
+                                            <img loading="lazy" class="myImg" data-index="{{ $index }}"
+                                                src="{{ asset($image->image_path) }}" alt="error">
+                                        </div>
+                                    @endif
                                 @endforeach
                             </div>
 

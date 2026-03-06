@@ -59,8 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const athleteSelect = row.querySelector(".select-picker");
         const hiddenAthletId = row.querySelector(".id_athlet_fetched");
         const hiddenCompetitionId = row.querySelector(".id_competition_fetched");
+        console.info(competitionSelect);
 
         if (!competitionSelect || !athleteSelect) return;
+
 
         competitionSelect.addEventListener("change", function () {
             let selectedOption = this.options[this.selectedIndex];
@@ -69,10 +71,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             hiddenCompetitionId.value = competitionId;
 
+
+
             fetch(`/athlets-available?competition=${competitionName}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    athleteSelect.innerHTML = `<option value="" disabled selected>Select an athlete</option>`;
+                    // athleteSelect.innerHTML = `<option value="" disabled selected>Select an athlete</option>`;
                     if (data.length > 0) {
                         data.forEach((athlet) => {
                             const opt = document.createElement("option");

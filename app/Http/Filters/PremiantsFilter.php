@@ -11,6 +11,8 @@ class PremiantsFilter extends AbstractFilter
     public const WEIGHT      = 'weight';
     public const PLACE       = 'place';
     public const COMPETITION = 'competition';
+    public const DATE        = 'date';
+
 
     /**
      * Get the callbacks for filtering.
@@ -25,6 +27,7 @@ class PremiantsFilter extends AbstractFilter
             self::WEIGHT => [$this, 'premiantWeight'],
             self::PLACE => [$this, 'premiantPlace'],
             self::COMPETITION => [$this, 'competition'],
+            self::DATE => [$this, 'date'],
         ];
     }
     public function premiantName(Builder $builder, $value)
@@ -53,6 +56,12 @@ class PremiantsFilter extends AbstractFilter
     {
         $builder->whereHas('competition', function ($query) use ($value) {
             $query->where('name', 'like', "%{$value}%");
+        });
+    }
+    public function date(Builder $builder, $value)
+    {
+        $builder->whereHas('competition', function ($query) use ($value) {
+            $query->where('date', 'like', "%{$value}%");
         });
     }
 

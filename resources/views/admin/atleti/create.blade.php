@@ -72,7 +72,7 @@
                 <td>
                     <input type="hidden" name="inputs[0][id_competition]" class="id_competition_fetched">
                     <select id="competition_name" name="competition_name"
-                        class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                        class="competition-select w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
                         <option value="" disabled selected>Numele competitiei</option>
                         @foreach ($competitions as $competition)
                             <option value="{{ $competition->name }}" data-competition-id="{{ $competition->id }}">

@@ -9,7 +9,6 @@ class Premiants extends Model
 {
     protected $table = 'premiants';
     protected $fillable = ['fullName','age','weight','place','id_competition','id_athlet'];
-    public $timestamps = false;
     use Filterable;
 
     public function competition(){
@@ -28,5 +27,8 @@ class Premiants extends Model
     }
     public function competitionName(){
         return $this->competition->name; // Access the accessor defined in Athlets model
+    }
+    public function dataCompetition(){
+        return $this->competition->date;
     }
 }

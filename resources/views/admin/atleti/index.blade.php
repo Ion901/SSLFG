@@ -21,12 +21,14 @@
         'weight' => 'Categorie',
         'place' => 'Loc ocupat',
         'competitionName' => 'Competiție',
+        'date' => 'Date'
     ]" :data="$athletes" :filters="[
         'fullName' => ['type' => 'text', 'placeholder' => 'Cauta dupa numele premiantului', 'width' => '180px'],
         'age' => ['type' => 'number', 'class' => 'yearpicker', 'placeholder' => 'Cauta dupa anul nasterii'],
         'weight' => ['type' => 'number', 'placeholder' => 'Cauta dupa greutate', 'min' => '20'],
         'place' => ['type' => 'number', 'placeholder' => 'Cauta dupa loc ocupat', 'min' => '0'],
         'competition' => ['type' => 'text', 'placeholder' => 'Cauta dupa numele competiției'],
+        'date' => ['type' => 'date', 'label' => 'Data']
     ]"
         :actions="['view' => false, 'edit' => true, 'delete' => true]" />
 
