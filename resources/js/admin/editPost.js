@@ -25,27 +25,58 @@ $(".clear-file").on("click", function () {
 
 let category = document.getElementById("category");
 
-function handleCategoryChange() {
-    if (category.value === "SPORT") {
-        fetchAPI(category);
+const linkModal = document.querySelector('#linkModal');
+const modal = document.querySelector('#modal');
+const inputs = modal.querySelectorAll('input');
+
+function toggleInput(category) {
+
+    const inp = (bln) => {
+        inputs.forEach(input => {
+            input.disabled = bln;
+        })
     }
+
+    return category === "SPORT" ?  inp(false) : inp(true)
 }
+
+linkModal.addEventListener('click', function () {
+    const hidden = modal.classList.toggle('hidden');
+    modal.classList.toggle('block', !hidden);
+})
+
+category.addEventListener('change', function () {
+    toggleInput(category.value);
+    if (category.value === "SPORT") {
+        if (linkModal.classList.contains('hidden')) {
+            linkModal.classList.remove('hidden');
+            linkModal.classList.add('block')
+        }
+        fetchAPI(category);
+    } else {
+
+        linkModal.classList.add('hidden');
+        modal.classList.add('hidden')
+    }
+
+})
+
 
 if (category.value === "SPORT") {
     fetchAPI(category);
-} else {
-    category.addEventListener("change", handleCategoryChange);
 }
 
 
-function fetchAPI(category1){
+
+function fetchAPI(category1) {
+    console.log(1);
+
     let category = category1.value;
 
     let competitionDropdown = document.getElementById("competition_name");
     let competitionLocationDropdown = document.getElementById("competition_location");
 
-    // Clear previous options
-    competitionDropdown.innerHTML = '<option value="">Select Competition</option>';
+    competitionDropdown.innerHTML = '<option value=""></option>';
     competitionLocationDropdown.value = '';
 
     if (category === "SPORT") {

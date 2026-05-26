@@ -8,6 +8,7 @@
     </x-slot>
 
     <x-slot name="scripts">
+        @parent
         @vite(['resources/js/admin/editPost.js'])
     </x-slot>
 
@@ -56,7 +57,7 @@
                     <option value=""></option>
                     @foreach ($categoryes as $category)
                         <option value="{{ $category->type }}"
-                            {{ $post->categoryType === $category->type ? 'selected' : '' }}>
+                            {{ $post->category->type === $category->type ? 'selected' : '' }}>
                             {{ $category->type }}
                         </option>
                     @endforeach
@@ -67,7 +68,7 @@
                 <p class="text-blue-700 cursor-pointer hover:text-blue-900 underline ">Adaugă detaliile competiției</p>
             </div>
 
-            @if ($post->categoryType === 'SPORT')
+            @if ($post->category->type === 'SPORT')
                 <div class="mb-4 transition-[scale] duration-500 ease-in-out  border-2 m-7 p-7" id="modal">
                 @else
                     <div class="mb-4 hidden transition-[scale] duration-500 ease-in-out  border-2 m-7 p-7"
@@ -84,7 +85,7 @@
                             <option value=""></option>
                             @foreach ($competitions as $competition)
                                 <option value="{{ $competition->name }}"
-                                    {{ $post->categoryType === 'SPORT' && $post->competitionDetails->name == $competition->name ? 'selected' : '' }}>
+                                    {{ $post->category->type === 'SPORT' && $post->competitionDetails->name == $competition->name ? 'selected' : '' }}>
                                     {{ $competition->name }}
                                 </option>
                             @endforeach
@@ -106,7 +107,7 @@
                             <option value=""></option>
                             @foreach ($competitions as $competition)
                                 <option value="{{ $competition->location }}"
-                                    {{ $post->categoryType === 'SPORT' && $post->competitionDetails->location == $competition->location ? 'selected' : '' }}>
+                                    {{ $post->category->type === 'SPORT' && $post->competitionDetails->location == $competition->location ? 'selected' : '' }}>
                                     {{ $competition->location }}
                                 </option>
                             @endforeach
@@ -123,7 +124,7 @@
                 competitiei</label>
             <input type="date" id="competition_date" name="competition_date"
                 class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-                value="{{ $post->categoryType === 'SPORT' && $post->competitionDetails ? $post->competitionDetails->formatted_date : '' }}">
+                value="{{ $post->category->type === 'SPORT' && $post->competitionDetails ? $post->competitionDetails->formatted_date : '' }}">
             {{-- {{dd($post->competitionDetails->date)}} --}}
             </div>
 
@@ -164,7 +165,7 @@
         {{-- Editor Imagini --}}
         <div class="mt-4 flex flex-row w-100">
             <div class="images-post gap-[6px]">
-                @foreach ($post->images as $index => $image)
+                @foreach ($post->image as $index => $image)
                     <div class="flex flex-col w-[300px]">
                         <div class="images-slider !w-[300px]">
                             <img loading="lazy" class="myImg " data-index="{{ $index }}"

@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 
 class Competitions extends Model
 {
+    protected $table = 'competitions';
     protected $fillable = ['name','location','date'];
     public $timestamps = false;
     use Filterable;
